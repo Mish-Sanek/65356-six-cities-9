@@ -1,6 +1,6 @@
 import ReviewForm from '../reviewForm/reviewForm';
 
-function Property() {
+function Room() {
   const isAuth = false;
 
   return (
@@ -159,4 +159,4 @@ function Property() {
   );
 }
 
-export default Property;
+export default Room;
