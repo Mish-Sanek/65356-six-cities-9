@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
 import App from './components/app/app';
 import { ICardProps } from './types/CardTypes';
 
@@ -63,6 +64,8 @@ const placeCardsData: ICardProps[] = [
 
 ReactDOM.render(
   <React.StrictMode>
-    <App placeCardsData={placeCardsData} />
+    <BrowserRouter>
+      <App placeCardsData={placeCardsData} />
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root'));
