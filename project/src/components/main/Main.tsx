@@ -1,4 +1,4 @@
-import { ICardProps } from '../../types/CardTypes';
+import { ICardProps } from '../../types';
 import MainEmpty from '../mainEmpty/mainEmpty';
 import PlaceCard from '../placeCard/PlaceCard';
 import Sort from '../sort/sort';
