@@ -27,7 +27,7 @@ function App({placeCardsData}: CardProps): JSX.Element {
   useEffect(() => {
     setLocationState(location.pathname);
     getFavorites();
-  }, [locationState]);
+  }, [locationState, placeCardsData]);
 
 
   return (
