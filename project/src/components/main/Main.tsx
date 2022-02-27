@@ -1,5 +1,8 @@
+import { useState } from 'react';
+import { POINTS } from '../../mocks/points';
 import { ICardProps } from '../../types';
 import MainEmpty from '../mainEmpty/mainEmpty';
+import Map from '../map/map';
 import PlaceCard from '../placeCard/PlaceCard';
 import Sort from '../sort/sort';
 import Tabs from '../tabs/tabs';
@@ -9,11 +12,25 @@ interface CardProps {
 }
 
 function Main({placeCardsData}: CardProps): JSX.Element {
+  const [activeTab, setActiveTab] = useState<{title: string, lat: number, lng: number, zoom: number}>({
+    title: 'Amsterdam',
+    lat: 52.379189,
+    lng: 4.899431,
+    zoom: 10,
+  });
+
+  const onTabHover = (tabName: string) => {
+    const currentPoint: any = POINTS.find((point) =>
+      point.title === tabName,
+    );
+    setActiveTab(currentPoint);
+  };
+
 
   return (
     <main className={`page__main page__main--index ${!placeCardsData.length && 'page__main--index-empty'}`}>
       <h1 className="visually-hidden">Cities</h1>
-      <Tabs />
+      <Tabs activeTab={activeTab} onTabHover={onTabHover} />
       <div className="cities">
         <div className={`cities__places-container ${!placeCardsData.length && 'cities__places-container--empty'} container`}>
           {
@@ -30,7 +47,7 @@ function Main({placeCardsData}: CardProps): JSX.Element {
                   </div>
                 </section>
                 <div className="cities__right-section">
-                  <section className="cities__map map" />
+                  <Map selectedPoint={activeTab} city={activeTab} points={POINTS} />
                 </div>
               </>
               :

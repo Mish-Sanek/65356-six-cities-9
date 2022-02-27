@@ -1,9 +1,11 @@
-import { useState } from 'react';
+interface TabsProps {
+  activeTab: Record<string, unknown>,
+  onTabHover: FunctionStringCallback,
+}
 
-function Tabs() {
+function Tabs({activeTab, onTabHover}: TabsProps) {
 
   const tabs = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
-  const [activeTab, setActiveTab] = useState('Paris');
 
   return (
     <div className="tabs">
@@ -14,8 +16,8 @@ function Tabs() {
               (
                 <li className="locations__item" key={tab}>
                   <a
-                    className={`locations__item-link tabs__item ${tab === activeTab ? 'tabs__item--active' : ''}`}
-                    onClick={() => setActiveTab(tab)}
+                    className={`locations__item-link tabs__item ${tab === activeTab.title ? 'tabs__item--active' : ''}`}
+                    onClick={() => onTabHover(tab)}
                   >
                     <span>{tab}</span>
                   </a>
