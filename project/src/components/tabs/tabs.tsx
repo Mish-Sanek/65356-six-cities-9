@@ -1,9 +1,9 @@
 interface TabsProps {
   activeTab: Record<string, unknown>,
-  onTabHover: FunctionStringCallback,
+  onTabClick: FunctionStringCallback,
 }
 
-function Tabs({activeTab, onTabHover}: TabsProps) {
+function Tabs({activeTab, onTabClick}: TabsProps) {
 
   const tabs = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 
@@ -17,9 +17,9 @@ function Tabs({activeTab, onTabHover}: TabsProps) {
                 <li className="locations__item" key={tab}>
                   <a
                     className={`locations__item-link tabs__item ${tab === activeTab.title ? 'tabs__item--active' : ''}`}
-                    onClick={() => onTabHover(tab)}
+                    onClick={() => onTabClick(tab)}
                   >
-                    <span>{tab}</span>
+                    <span>{tab} </span>
                   </a>
                 </li>
               ),

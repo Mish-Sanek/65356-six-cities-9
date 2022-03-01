@@ -5,15 +5,14 @@ import 'leaflet/dist/leaflet.css';
 import useMap from '../../hooks/useMap';
 
 interface MapProps {
-  selectedPoint: any,
-  city: any,
-  points: any,
+  activeTab: any,
+  points: object[],
 }
 
-function Map({selectedPoint, points, city}: MapProps) {
+function Map({activeTab, points}: MapProps) {
 
   const mapRef = useRef(null);
-  const map = useMap(mapRef, city);
+  const map = useMap(mapRef, activeTab);
 
   const defaultCustomIcon = leaflet.icon({
     iconUrl: 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg',
@@ -29,20 +28,22 @@ function Map({selectedPoint, points, city}: MapProps) {
 
   useEffect(() => {
     if (map) {
-      points.map((point: any) => {
-        leaflet
-          .marker({
-            lat: point.lat,
-            lng: point.lng,
-          }, {
-            icon: (point.title === selectedPoint)
-              ? currentCustomIcon
-              : defaultCustomIcon,
-          })
-          .addTo(map);
-      });
+      points.map((point: any) => leaflet
+        .marker({
+          lat: point.lat,
+          lng: point.lng,
+        }, {
+          icon: (point.title === activeTab)
+            ? currentCustomIcon
+            : defaultCustomIcon,
+        })
+        .addTo(map),
+      );
+      leaflet.latLng([activeTab.lat, activeTab.lng]);
+      // eslint-disable-next-line no-console
+      console.log(leaflet.latLng([activeTab.lat, activeTab.lng]));
     }
-  }, [map, points, selectedPoint, city]);
+  }, [map, points, activeTab]);
 
   return (
     <section

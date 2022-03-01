@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { POINTS } from '../../mocks/points';
-import { ICardProps } from '../../types';
+import { ICardProps, PointType } from '../../types';
 import MainEmpty from '../mainEmpty/mainEmpty';
 import Map from '../map/map';
 import PlaceCard from '../placeCard/PlaceCard';
@@ -12,15 +11,30 @@ interface CardProps {
 }
 
 function Main({placeCardsData}: CardProps): JSX.Element {
+  const getPoints = () => {
+    const arr: any[] = [];
+    placeCardsData.map((point) => (
+      arr.push({
+        title: point.city.name,
+        lat: point.city.location.latitude,
+        lng: point.city.location.longitude,
+        zoom: point.city.location.zoom,
+      })
+    ));
+    return arr;
+  };
+
+  const points = getPoints();
+
   const [activeTab, setActiveTab] = useState<{title: string, lat: number, lng: number, zoom: number}>({
-    title: 'Amsterdam',
-    lat: 52.379189,
-    lng: 4.899431,
-    zoom: 10,
+    title: 'Paris',
+    lat: 48.85661,
+    lng: 2.351499,
+    zoom: 13,
   });
 
-  const onTabHover = (tabName: string) => {
-    const currentPoint: any = POINTS.find((point) =>
+  const onTabClick = (tabName: string): void => {
+    const currentPoint: PointType = points.find((point) =>
       point.title === tabName,
     );
     setActiveTab(currentPoint);
@@ -30,7 +44,7 @@ function Main({placeCardsData}: CardProps): JSX.Element {
   return (
     <main className={`page__main page__main--index ${!placeCardsData.length && 'page__main--index-empty'}`}>
       <h1 className="visually-hidden">Cities</h1>
-      <Tabs activeTab={activeTab} onTabHover={onTabHover} />
+      <Tabs activeTab={activeTab} onTabClick={onTabClick} />
       <div className="cities">
         <div className={`cities__places-container ${!placeCardsData.length && 'cities__places-container--empty'} container`}>
           {
@@ -47,7 +61,7 @@ function Main({placeCardsData}: CardProps): JSX.Element {
                   </div>
                 </section>
                 <div className="cities__right-section">
-                  <Map selectedPoint={activeTab} city={activeTab} points={POINTS} />
+                  <Map activeTab={activeTab} points={points} />
                 </div>
               </>
               :

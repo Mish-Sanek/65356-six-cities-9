@@ -11,7 +11,7 @@ function useMap(mapRef, city) {
           lat: city.lat,
           lng: city.lng,
         },
-        zoom: city.zoom,
+        zoom: 10,
       });
 
       leaflet
