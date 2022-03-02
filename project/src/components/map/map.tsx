@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useRef } from 'react';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -48,8 +47,6 @@ function Map({activeTab, points}: MapProps) {
       })
       .addTo(map),
     );
-
-    leaflet.latLng(activeTab.lat, activeTab.lng);
   }, [map, points, activeTab]);
 
   return (

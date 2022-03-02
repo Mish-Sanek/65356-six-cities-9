@@ -17,8 +17,8 @@ function Main({placeCardsData}: CardProps): JSX.Element {
     placeCardsData.map((point) => (
       arr.push({
         title: point.city.name,
-        lat: point.city.location.latitude,
-        lng: point.city.location.longitude,
+        lat: point.location.latitude,
+        lng: point.location.longitude,
       })
     ));
     return arr;
@@ -26,16 +26,11 @@ function Main({placeCardsData}: CardProps): JSX.Element {
 
   const points = getPoints();
 
-  // eslint-disable-next-line no-console
-  console.log(points);
-
-
-  const [activeTab, setActiveTab] = useState<{title: string, lat: number, lng: number}>({
+  const [activeTab, setActiveTab] = useState<PointType>({
     title: 'Paris',
     lat: 48.85661,
     lng: 2.351499,
   });
-
 
   const onTabClick = (tab: PointType) => {
     const currentPoint: PointType = points.find((point) =>
