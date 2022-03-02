@@ -13,7 +13,7 @@ function Tabs({activeTab, tabs, onTabClick}: TabsProps) {
       <section className="locations container">
         <ul className="locations__list tabs__list">
           {
-            tabs.map((tab: any) =>
+            tabs.map((tab: PointType) =>
               (
                 <li className="locations__item" key={tab.title}>
                   <a

@@ -12,8 +12,15 @@ interface CardProps {
 }
 
 function Main({placeCardsData}: CardProps): JSX.Element {
-  const getPoints = () => {
-    const arr: any[] = [];
+
+  const [activeTab, setActiveTab] = useState<PointType>({
+    title: 'Paris',
+    lat: 48.85661,
+    lng: 2.351499,
+  });
+
+  const getPoints = (): PointType[] => {
+    const arr: PointType[] = [];
     placeCardsData.map((point) => (
       arr.push({
         title: point.city.name,
@@ -26,16 +33,14 @@ function Main({placeCardsData}: CardProps): JSX.Element {
 
   const points = getPoints();
 
-  const [activeTab, setActiveTab] = useState<PointType>({
-    title: 'Paris',
-    lat: 48.85661,
-    lng: 2.351499,
-  });
-
-  const onTabClick = (tab: PointType) => {
+  const onTabClick = (tab: PointType): void => {
     const currentPoint: PointType = points.find((point) =>
       point.title === tab.title,
     );
+
+    // eslint-disable-next-line no-console
+    console.log(typeof currentPoint, currentPoint);
+
     setActiveTab(currentPoint);
   };
 

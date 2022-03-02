@@ -2,10 +2,12 @@ import { MutableRefObject, useEffect, useState } from 'react';
 import leaflet, { Map } from 'leaflet';
 import { PointType } from '../types';
 
-function useMap(
+interface UseMapProps {
   mapRef: MutableRefObject<HTMLElement | null>,
   city: PointType,
-): Map | null {
+}
+
+function useMap({mapRef, city}: UseMapProps): Map | null {
   const [map, setMap] = useState<leaflet.Map | null>(null);
 
   useEffect(() => {
