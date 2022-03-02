@@ -33,9 +33,8 @@ export type ICardProps = {
   id: number
 }
 
-export type PointType = {
+export interface PointType {
   title: string,
   lat: number,
   lng: number,
-  zoom: number,
 }

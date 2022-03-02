@@ -11,7 +11,7 @@ function useMap(mapRef, city) {
           lat: city.lat,
           lng: city.lng,
         },
-        zoom: 10,
+        zoom: 13,
       });
 
       leaflet
@@ -22,8 +22,10 @@ function useMap(mapRef, city) {
           },
         )
         .addTo(instance);
-
       setMap(instance);
+
+      // eslint-disable-next-line no-console
+      //console.log(city, map);
     }
   }, [mapRef, map, city]);
 

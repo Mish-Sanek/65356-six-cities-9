@@ -1,25 +1,26 @@
+import { PointType } from '../../types';
+
 interface TabsProps {
-  activeTab: Record<string, unknown>,
-  onTabClick: FunctionStringCallback,
+  activeTab: PointType,
+  tabs: PointType[],
+  onTabClick: (tab: PointType) => void,
 }
 
-function Tabs({activeTab, onTabClick}: TabsProps) {
-
-  const tabs = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
+function Tabs({activeTab, tabs, onTabClick}: TabsProps) {
 
   return (
     <div className="tabs">
       <section className="locations container">
         <ul className="locations__list tabs__list">
           {
-            tabs.map((tab) =>
+            tabs.map((tab: any) =>
               (
-                <li className="locations__item" key={tab}>
+                <li className="locations__item" key={tab.title}>
                   <a
-                    className={`locations__item-link tabs__item ${tab === activeTab.title ? 'tabs__item--active' : ''}`}
+                    className={`locations__item-link tabs__item ${tab.title === activeTab.title ? 'tabs__item--active' : ''}`}
                     onClick={() => onTabClick(tab)}
                   >
-                    <span>{tab} </span>
+                    <span>{tab.title} </span>
                   </a>
                 </li>
               ),
