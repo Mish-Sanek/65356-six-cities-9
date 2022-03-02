@@ -28,22 +28,28 @@ function Map({activeTab, points}: MapProps) {
   });
 
   useEffect(() => {
-    if (map) {
-      points.map((point) => leaflet
-        .marker({
-          lat: point.lat,
-          lng: point.lng,
-        }, {
-          icon: (point.title === activeTab.title)
-            ? currentCustomIcon
-            : defaultCustomIcon,
-        })
-        .addTo(map),
-      );
-
-      // eslint-disable-next-line no-console
-      console.log(map);
+    if (map === null) {
+      return;
     }
+
+    map.setView({
+      lat: activeTab.lat,
+      lng: activeTab.lng,
+    });
+
+    points.forEach((point) => leaflet
+      .marker({
+        lat: point.lat,
+        lng: point.lng,
+      }, {
+        icon: (point.title === activeTab.title)
+          ? currentCustomIcon
+          : defaultCustomIcon,
+      })
+      .addTo(map),
+    );
+
+    leaflet.latLng(activeTab.lat, activeTab.lng);
   }, [map, points, activeTab]);
 
   return (

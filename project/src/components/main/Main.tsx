@@ -26,6 +26,10 @@ function Main({placeCardsData}: CardProps): JSX.Element {
 
   const points = getPoints();
 
+  // eslint-disable-next-line no-console
+  console.log(points);
+
+
   const [activeTab, setActiveTab] = useState<{title: string, lat: number, lng: number}>({
     title: 'Paris',
     lat: 48.85661,
@@ -37,8 +41,6 @@ function Main({placeCardsData}: CardProps): JSX.Element {
     const currentPoint: PointType = points.find((point) =>
       point.title === tab.title,
     );
-    // eslint-disable-next-line no-console
-    console.log(currentPoint);
     setActiveTab(currentPoint);
   };
 
