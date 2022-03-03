@@ -1,23 +1,26 @@
-import { useState } from 'react';
+import { PointType } from '../../types';
 
-function Tabs() {
+interface TabsProps {
+  activeTab: PointType,
+  tabs: PointType[],
+  onTabClick: (tab: PointType) => void,
+}
 
-  const tabs = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
-  const [activeTab, setActiveTab] = useState('Paris');
+function Tabs({activeTab, tabs, onTabClick}: TabsProps) {
 
   return (
     <div className="tabs">
       <section className="locations container">
         <ul className="locations__list tabs__list">
           {
-            tabs.map((tab) =>
+            tabs.map((tab: PointType) =>
               (
-                <li className="locations__item" key={tab}>
+                <li className="locations__item" key={tab.title}>
                   <a
-                    className={`locations__item-link tabs__item ${tab === activeTab ? 'tabs__item--active' : ''}`}
-                    onClick={() => setActiveTab(tab)}
+                    className={`locations__item-link tabs__item ${tab.title === activeTab.title ? 'tabs__item--active' : ''}`}
+                    onClick={() => onTabClick(tab)}
                   >
-                    <span>{tab}</span>
+                    <span>{tab.title} </span>
                   </a>
                 </li>
               ),

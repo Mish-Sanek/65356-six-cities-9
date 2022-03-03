@@ -1,5 +1,8 @@
-import { ICardProps } from '../../types';
+import { useState } from 'react';
+import { CITIES } from '../../consts/cities';
+import { ICardProps, PointType } from '../../types';
 import MainEmpty from '../mainEmpty/mainEmpty';
+import Map from '../map/map';
 import PlaceCard from '../placeCard/PlaceCard';
 import Sort from '../sort/sort';
 import Tabs from '../tabs/tabs';
@@ -10,10 +13,46 @@ interface CardProps {
 
 function Main({placeCardsData}: CardProps): JSX.Element {
 
+  const [activeTab, setActiveTab] = useState<PointType>({
+    title: 'Paris',
+    lat: 48.85661,
+    lng: 2.351499,
+  });
+
+  const getPoints = (): PointType[] => {
+    const arr: PointType[] = [];
+
+    placeCardsData.map((point: ICardProps) => (
+      arr.push({
+        title: point.city.name,
+        lat: point.location.latitude,
+        lng: point.location.longitude,
+      })
+    ));
+
+    return arr;
+  };
+
+  const points = getPoints();
+
+  const onTabClick = (tab: PointType): void => {
+
+    const currentPoint = points.find((point) =>
+      point.title === tab.title,
+    );
+
+    if(!currentPoint) {
+      return;
+    }
+
+    setActiveTab(currentPoint);
+  };
+
+
   return (
     <main className={`page__main page__main--index ${!placeCardsData.length && 'page__main--index-empty'}`}>
       <h1 className="visually-hidden">Cities</h1>
-      <Tabs />
+      <Tabs activeTab={activeTab} tabs={CITIES} onTabClick={onTabClick} />
       <div className="cities">
         <div className={`cities__places-container ${!placeCardsData.length && 'cities__places-container--empty'} container`}>
           {
@@ -30,7 +69,7 @@ function Main({placeCardsData}: CardProps): JSX.Element {
                   </div>
                 </section>
                 <div className="cities__right-section">
-                  <section className="cities__map map" />
+                  <Map activeTab={activeTab} points={points} />
                 </div>
               </>
               :
