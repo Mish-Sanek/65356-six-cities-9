@@ -21,25 +21,29 @@ function Main({placeCardsData}: CardProps): JSX.Element {
 
   const getPoints = (): PointType[] => {
     const arr: PointType[] = [];
-    placeCardsData.map((point) => (
+
+    placeCardsData.map((point: ICardProps) => (
       arr.push({
         title: point.city.name,
         lat: point.location.latitude,
         lng: point.location.longitude,
       })
     ));
+
     return arr;
   };
 
   const points = getPoints();
 
   const onTabClick = (tab: PointType): void => {
-    const currentPoint: PointType = points.find((point) =>
+
+    const currentPoint = points.find((point) =>
       point.title === tab.title,
     );
 
-    // eslint-disable-next-line no-console
-    console.log(typeof currentPoint, currentPoint);
+    if(!currentPoint) {
+      return;
+    }
 
     setActiveTab(currentPoint);
   };
