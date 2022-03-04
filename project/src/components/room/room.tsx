@@ -1,18 +1,17 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { ICardProps } from '../../types';
+import { useAppSelector } from '../../hooks';
 import RoomGalery from '../roomGalery/roomGalery';
 import RoomGoods from '../roomGoods/roomGoods';
 import RoomReviews from '../roomReviews/roomReviews';
 
-interface OfferProps {
-  offers: Array<ICardProps>
-}
-
-function Room({offers}: OfferProps) {
+function Room() {
   const params = useParams();
 
-  const currentOffer = offers.filter((item) => item.id === Number(params.id));
-  const offer = currentOffer[0];
+  const {placeCardsData} = useAppSelector((state) => state);
+
+  const [offer] = useState(placeCardsData[Number(params.id)]);
 
 
   return (
