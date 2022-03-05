@@ -1,23 +1,28 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import { CITIES } from '../../consts/cities';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { changeCity } from '../../store/action';
 import { PointType } from '../../types';
 
-interface TabsProps {
-  activeTab: PointType,
-  tabs: PointType[],
-  onTabClick: (tab: PointType) => void,
-}
+function Tabs() {
 
-function Tabs({activeTab, tabs, onTabClick}: TabsProps) {
+  const {city} = useAppSelector((state) => state);
+  const dispatch = useAppDispatch();
+
+  const onTabClick = (tab: PointType) => {
+    dispatch(changeCity(tab));
+  };
 
   return (
     <div className="tabs">
       <section className="locations container">
         <ul className="locations__list tabs__list">
           {
-            tabs.map((tab: PointType) =>
+            CITIES.map((tab) =>
               (
                 <li className="locations__item" key={tab.title}>
                   <a
-                    className={`locations__item-link tabs__item ${tab.title === activeTab.title ? 'tabs__item--active' : ''}`}
+                    className={`locations__item-link tabs__item ${tab.title === city.title ? 'tabs__item--active' : ''}`}
                     onClick={() => onTabClick(tab)}
                   >
                     <span>{tab.title} </span>

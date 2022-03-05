@@ -3,16 +3,18 @@ import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import useMap from '../../hooks/useMap';
 import { PointType } from '../../types';
+import { useAppSelector } from '../../hooks';
 
 interface MapProps {
-  activeTab: PointType,
   points: PointType[],
 }
 
-function Map({activeTab, points}: MapProps) {
+function Map({points}: MapProps) {
+
+  const {city} = useAppSelector((state) => state);
 
   const mapRef = useRef(null);
-  const map = useMap(mapRef, activeTab);
+  const map = useMap(mapRef, city);
 
   const defaultCustomIcon = leaflet.icon({
     iconUrl: 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg',
@@ -20,11 +22,11 @@ function Map({activeTab, points}: MapProps) {
     iconAnchor: [20, 40],
   });
 
-  const currentCustomIcon = leaflet.icon({
+  /* const currentCustomIcon = leaflet.icon({
     iconUrl: 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg',
     iconSize: [40, 40],
     iconAnchor: [20, 40],
-  });
+  }); */
 
   useEffect(() => {
     if (map === null) {
@@ -32,22 +34,21 @@ function Map({activeTab, points}: MapProps) {
     }
 
     map.setView({
-      lat: activeTab.lat,
-      lng: activeTab.lng,
+      lat: city.lat,
+      lng: city.lng,
     });
 
     points.forEach((point) => leaflet
       .marker({
         lat: point.lat,
         lng: point.lng,
-      }, {
-        icon: (point.title === activeTab.title)
-          ? currentCustomIcon
-          : defaultCustomIcon,
+      },
+      {
+        icon: defaultCustomIcon,
       })
       .addTo(map),
     );
-  }, [map, points, activeTab]);
+  }, [map, points, city]);
 
   return (
     <section

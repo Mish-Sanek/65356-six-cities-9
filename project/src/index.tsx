@@ -1,16 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import App from './components/app/app';
-import { offers } from './mocks/offers';
-import { ICardProps } from './types';
-
-const placeCardsData: ICardProps[] = offers;
+import { store } from './store';
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <App placeCardsData={placeCardsData} />
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root'));
