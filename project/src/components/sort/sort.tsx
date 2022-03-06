@@ -13,15 +13,14 @@ function Sort({activeFilter, changeSort}: SortProps) {
 
   return (
     <form className="places__sorting" action="#" method="get">
-      <span className="places__sorting-caption">Sort by</span>
+      <span className="places__sorting-caption">Sort by </span>
       <span
         className="places__sorting-type"
         tabIndex={0}
         onClick={() => {
           setIsOpened(!isOpened);
         }}
-      >
-        Popular
+      > {activeFilter}
         <svg className="places__sorting-arrow" width={7} height={4}>
           <use xlinkHref="#icon-arrow-select" />
         </svg>
@@ -34,7 +33,10 @@ function Sort({activeFilter, changeSort}: SortProps) {
                 className={`places__option ${activeFilter === item ? 'places__option--active' : ''}`}
                 key={item}
                 tabIndex={0}
-                onClick={() => changeSort(item)}
+                onClick={() => {
+                  changeSort(item);
+                  setIsOpened(!isOpened);
+                }}
               >
                 {item}
               </li>
