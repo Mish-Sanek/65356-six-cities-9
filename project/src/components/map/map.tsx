@@ -2,14 +2,15 @@ import { useEffect, useRef } from 'react';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import useMap from '../../hooks/useMap';
-import { PointType } from '../../types';
+import { CardPoints, PointType } from '../../types';
 import { useAppSelector } from '../../hooks';
 
 interface MapProps {
   points: PointType[],
+  hoveredCardPoints? : CardPoints
 }
 
-function Map({points}: MapProps) {
+function Map({points, hoveredCardPoints}: MapProps) {
 
   const {city} = useAppSelector((state) => state);
 
@@ -22,11 +23,11 @@ function Map({points}: MapProps) {
     iconAnchor: [20, 40],
   });
 
-  /* const currentCustomIcon = leaflet.icon({
+  const currentCustomIcon = leaflet.icon({
     iconUrl: 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg',
     iconSize: [40, 40],
     iconAnchor: [20, 40],
-  }); */
+  });
 
   useEffect(() => {
     if (map === null) {
@@ -44,11 +45,15 @@ function Map({points}: MapProps) {
         lng: point.lng,
       },
       {
-        icon: defaultCustomIcon,
+        icon: (point.lat === hoveredCardPoints?.lat && point.lng === hoveredCardPoints?.lng)
+          ?
+          currentCustomIcon
+          :
+          defaultCustomIcon,
       })
       .addTo(map),
     );
-  }, [map, points, city]);
+  }, [map, points, city, hoveredCardPoints]);
 
   return (
     <section

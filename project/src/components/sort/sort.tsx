@@ -1,8 +1,15 @@
 import { useState } from 'react';
 
-function Sort() {
+type SortProps = {
+  activeFilter: string,
+  changeSort: (tab: string) => void;
+}
+
+function Sort({activeFilter, changeSort}: SortProps) {
 
   const [isOpened, setIsOpened] = useState(false);
+
+  const sortList: string[] = ['Popular', 'Price: low to high', 'Price: high to low', 'Top rated first'];
 
   return (
     <form className="places__sorting" action="#" method="get">
@@ -20,10 +27,20 @@ function Sort() {
         </svg>
       </span>
       <ul className={`places__options places__options--custom ${isOpened && 'places__options--opened'}`}>
-        <li className="places__option places__option--active" tabIndex={0}>Popular</li>
-        <li className="places__option" tabIndex={0}>Price: low to high</li>
-        <li className="places__option" tabIndex={0}>Price: high to low</li>
-        <li className="places__option" tabIndex={0}>Top rated first</li>
+        {
+          sortList.map((item) =>
+            (
+              <li
+                className={`places__option ${activeFilter === item ? 'places__option--active' : ''}`}
+                key={item}
+                tabIndex={0}
+                onClick={() => changeSort(item)}
+              >
+                {item}
+              </li>
+            ),
+          )
+        }
       </ul>
     </form>
   );

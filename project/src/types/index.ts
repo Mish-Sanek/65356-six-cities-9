@@ -38,3 +38,8 @@ export interface PointType {
   lat: number,
   lng: number,
 }
+
+export interface CardPoints {
+  lat: number,
+  lng: number
+}
