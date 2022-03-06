@@ -74,7 +74,7 @@ function Main(): JSX.Element {
 
 
   return (
-    <main className={`page__main page__main--index ${!placeCardsData.length ? 'page__main--index-empty' : ''}`}>
+    <main className={`page__main page__main--index ${!sortedCards.length ? 'page__main--index-empty' : ''}`}>
       <h1 className="visually-hidden">Cities</h1>
       <Tabs />
       {
@@ -82,7 +82,7 @@ function Main(): JSX.Element {
           <MainEmpty />
           :
           <div className="cities">
-            <div className={`cities__places-container ${!placeCardsData.length && 'cities__places-container--empty'} container`}>
+            <div className={`cities__places-container ${!sortedCards.length && 'cities__places-container--empty'} container`}>
               {
                 placeCardsData.length ?
                   <>
@@ -92,7 +92,7 @@ function Main(): JSX.Element {
                       <Sort changeSort={changeSort} activeFilter={activeFilter} />
                       <div className="cities__places-list places__list tabs__content">
                         {
-                          sortedCards.map((card: ICardProps) => <PlaceCard key={card.id} card={card} getCardPoints={getCardPoints} />)
+                          checkedCityOffers.map((card: ICardProps) => <PlaceCard key={card.id} card={card} getCardPoints={getCardPoints} />)
                         }
                       </div>
                     </section>
