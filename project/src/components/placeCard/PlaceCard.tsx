@@ -3,12 +3,27 @@ import { ICardProps } from '../../types';
 
 type Item = {
   card: ICardProps
+  getCardPoints: (card: {lat: number, lng: number}) => void,
 }
 
-function PlaceCard({card}: Item): JSX.Element {
+function PlaceCard({card, getCardPoints}: Item): JSX.Element {
+
+  const getRatingByPercent = (rating: number) => {
+    const percent = Math.floor((rating * 100) / 5);
+
+    return percent;
+  };
+
+  const cardPoints = {
+    lat: card.location.latitude,
+    lng: card.location.longitude,
+  };
 
   return (
-    <article className="cities__place-card place-card">
+    <article
+      className="cities__place-card place-card"
+      onMouseEnter={() => getCardPoints(cardPoints)}
+    >
       {
         card.isPremium &&
         <div className="place-card__mark">
@@ -17,7 +32,7 @@ function PlaceCard({card}: Item): JSX.Element {
       }
       <div className="cities__image-wrapper place-card__image-wrapper">
         <a href="#">
-          <img className="place-card__image" src={card.previewImage} width={260} height={200} alt="Place image" />
+          <img className="place-card__image" src={card.previewImage} width={260} height={200} alt="Place wallpapper" />
         </a>
       </div>
       <div className="place-card__info">
@@ -35,7 +50,7 @@ function PlaceCard({card}: Item): JSX.Element {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: '80%'}} />
+            <span style={{width: `${getRatingByPercent(card.rating)}%`}} />
             <span className="visually-hidden">{card.rating}</span>
           </div>
         </div>

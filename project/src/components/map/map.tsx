@@ -2,14 +2,15 @@ import { useEffect, useRef } from 'react';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import useMap from '../../hooks/useMap';
-import { PointType } from '../../types';
+import { CardPoints, PointType } from '../../types';
 import { useAppSelector } from '../../hooks';
 
 interface MapProps {
   points: PointType[],
+  hoveredCardPoints? : CardPoints
 }
 
-function Map({points}: MapProps) {
+function Map({points, hoveredCardPoints}: MapProps) {
 
   const {city} = useAppSelector((state) => state);
 
@@ -17,16 +18,16 @@ function Map({points}: MapProps) {
   const map = useMap(mapRef, city);
 
   const defaultCustomIcon = leaflet.icon({
-    iconUrl: 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
+    iconUrl: 'img/pin.svg',
+    iconSize: [27, 39],
+    iconAnchor: [23, 40],
   });
 
-  /* const currentCustomIcon = leaflet.icon({
-    iconUrl: 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
-  }); */
+  const currentCustomIcon = leaflet.icon({
+    iconUrl: 'img/pin-active.svg',
+    iconSize: [27, 40],
+    iconAnchor: [23, 40],
+  });
 
   useEffect(() => {
     if (map === null) {
@@ -44,11 +45,15 @@ function Map({points}: MapProps) {
         lng: point.lng,
       },
       {
-        icon: defaultCustomIcon,
+        icon: (point.lat === hoveredCardPoints?.lat && point.lng === hoveredCardPoints?.lng)
+          ?
+          currentCustomIcon
+          :
+          defaultCustomIcon,
       })
       .addTo(map),
     );
-  }, [map, points, city]);
+  }, [map, points, city, hoveredCardPoints]);
 
   return (
     <section

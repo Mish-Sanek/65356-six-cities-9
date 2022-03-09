@@ -1,5 +1,7 @@
-import { useAppSelector } from '../../hooks';
-import { ICardProps, PointType } from '../../types';
+import { useEffect, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { changeOffers } from '../../store/action';
+import { CardPoints, ICardProps, PointType } from '../../types';
 import MainEmpty from '../mainEmpty/mainEmpty';
 import Map from '../map/map';
 import PlaceCard from '../placeCard/PlaceCard';
@@ -8,7 +10,17 @@ import Tabs from '../tabs/tabs';
 
 function Main(): JSX.Element {
 
-  const {placeCardsData, city} = useAppSelector((state) => state);
+  const {placeCardsData, city, activeFilter, sortedOffers} = useAppSelector((state) => state);
+  const dispatch = useAppDispatch();
+  const [hoveredCardPoints, setHoveredCardPoints] = useState<CardPoints>({lat: 0, lng: 0});
+
+  const getCardPoints = (card: CardPoints) => {
+    if(!card) {
+      return;
+    }
+
+    setHoveredCardPoints(card);
+  };
 
   const getPoints = (): PointType[] => {
     const arr: PointType[] = [];
@@ -42,8 +54,13 @@ function Main(): JSX.Element {
 
   const checkedCityOffers = getCheckedCityOffers();
 
+  useEffect(() => {
+    dispatch(changeOffers(checkedCityOffers));
+  }, [activeFilter]);
+
+
   return (
-    <main className={`page__main page__main--index ${!placeCardsData.length ? 'page__main--index-empty' : ''}`}>
+    <main className={`page__main page__main--index ${!sortedOffers.length ? 'page__main--index-empty' : ''}`}>
       <h1 className="visually-hidden">Cities</h1>
       <Tabs />
       {
@@ -51,7 +68,7 @@ function Main(): JSX.Element {
           <MainEmpty />
           :
           <div className="cities">
-            <div className={`cities__places-container ${!placeCardsData.length && 'cities__places-container--empty'} container`}>
+            <div className={`cities__places-container ${!sortedOffers.length && 'cities__places-container--empty'} container`}>
               {
                 placeCardsData.length ?
                   <>
@@ -61,12 +78,12 @@ function Main(): JSX.Element {
                       <Sort />
                       <div className="cities__places-list places__list tabs__content">
                         {
-                          checkedCityOffers.map((card: ICardProps) => <PlaceCard key={card.id} card={card} />)
+                          sortedOffers.map((card: ICardProps) => <PlaceCard key={card.id} card={card} getCardPoints={getCardPoints} />)
                         }
                       </div>
                     </section>
                     <div className="cities__right-section">
-                      <Map points={points} />
+                      <Map points={points} hoveredCardPoints={hoveredCardPoints} />
                     </div>
                   </>
                   :
