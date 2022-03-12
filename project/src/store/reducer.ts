@@ -1,13 +1,13 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { offers } from '../mocks/offers';
 import { ICardProps, PointType } from '../types';
-import { changeCity, changeFilter, changeOffers } from './action';
+import { changeCity, changeFilter, changeIsLoading, changeOffers, loadCities } from './action';
 
 interface CityState {
   city: PointType,
   placeCardsData: ICardProps[],
   activeFilter: string,
   sortedOffers: ICardProps[],
+  isOffersLoading: boolean,
 }
 
 const initialState = {
@@ -16,12 +16,19 @@ const initialState = {
     lat: 48.85661,
     lng: 2.351499,
   },
-  placeCardsData: offers,
+  placeCardsData: [],
   activeFilter: 'Popular',
   sortedOffers: [],
+  isOffersLoading: true,
 } as CityState;
 
 const reducer = createReducer(initialState, (builder) => {
+  builder.addCase(loadCities, (state, action) => {
+    state.placeCardsData = action.payload;
+  });
+  builder.addCase(changeIsLoading, (state, action) => {
+    state.isOffersLoading = action.payload;
+  });
   builder.addCase(changeCity, (state, action) => {
     state.city = action.payload;
   });
