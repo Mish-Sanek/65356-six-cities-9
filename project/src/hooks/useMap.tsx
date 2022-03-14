@@ -29,6 +29,10 @@ function useMap(
       )
       .addTo(instance);
     setMap(instance);
+
+    return () => {
+      setMap(null);
+    };
   }, [mapRef]);
 
   return map;

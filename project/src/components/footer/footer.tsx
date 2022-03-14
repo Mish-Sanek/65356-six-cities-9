@@ -1,4 +1,4 @@
-function Footer() {
+function Footer(): JSX.Element {
   return (
     <footer className="footer">
       <a className="footer__logo-link" href="main.html">

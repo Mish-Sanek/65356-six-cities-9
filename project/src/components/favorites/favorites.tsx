@@ -9,7 +9,7 @@ function Favorites() {
 
   const getFavorites = () => {
     const arr: ICardProps[] = [];
-    placeCardsData.map((item) => {
+    placeCardsData.filter((item) => {
       if(item.isFavorite === true) {
         arr.push(item);
       }
@@ -28,7 +28,7 @@ function Favorites() {
     <main className='page__main page__main--favorites'>
       <div className="page__favorites-container container">
         {
-          !favorites ?
+          !favorites?
             <FavoritesEmpty />
             :
             <section className="favorites">
