@@ -1,19 +1,19 @@
-import { ICardProps } from '../../types';
+import { CardPoints, ICardProps, PointType } from '../../types';
 import MainEmpty from '../mainEmpty/mainEmpty';
 import Map from '../map/map';
 import PlaceCard from '../placeCard/PlaceCard';
 import Sort from '../sort/sort';
 
 type ContainerTypes = {
-  sortedOffers: any,
-  checkedCityOffers: any,
-  city: any,
-  getCardPoints: any,
-  points: any,
-  hoveredCardPoints: any,
+  sortedOffers: ICardProps[],
+  checkedCityOffers: ICardProps[],
+  city: PointType,
+  getCardPoints: (card: CardPoints) => void,
+  points: PointType[],
+  hoveredCardPoints: CardPoints,
 }
 
-function Container({sortedOffers, checkedCityOffers, city, getCardPoints, points, hoveredCardPoints}: ContainerTypes): JSX.Element {
+function MainContainer({sortedOffers, checkedCityOffers, city, getCardPoints, points, hoveredCardPoints}: ContainerTypes): JSX.Element {
   return (
     !sortedOffers.length ?
       <MainEmpty />
@@ -38,4 +38,4 @@ function Container({sortedOffers, checkedCityOffers, city, getCardPoints, points
   );
 }
 
-export default Container;
+export default MainContainer;

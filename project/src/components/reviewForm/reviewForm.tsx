@@ -22,8 +22,6 @@ function ReviewForm() {
 
   const formSubmitHandler = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // eslint-disable-next-line no-console
-    console.log(review, review.rating.length);
     setReview({
       text: '',
       rating: '',

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { changeOffers } from '../../store/action';
 import { CardPoints, ICardProps, PointType } from '../../types';
-import Container from '../container/Container';
+import MainContainer from '../container/mainContainer';
 import Loader from '../loader/Loader';
 import Tabs from '../tabs/tabs';
 
@@ -64,7 +64,7 @@ function Main(): JSX.Element {
         isOffersLoading === true ?
           <Loader />
           :
-          <Container sortedOffers={sortedOffers} checkedCityOffers={checkedCityOffers} city={city} getCardPoints={getCardPoints} hoveredCardPoints={hoveredCardPoints} points={points}  />
+          <MainContainer sortedOffers={sortedOffers} checkedCityOffers={checkedCityOffers} city={city} getCardPoints={getCardPoints} hoveredCardPoints={hoveredCardPoints} points={points}  />
       }
     </main>
   );

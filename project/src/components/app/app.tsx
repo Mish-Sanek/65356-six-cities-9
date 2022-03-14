@@ -15,7 +15,7 @@ function App(): JSX.Element {
 
   useEffect(() => {
     setLocationState(location.pathname);
-  }, [locationState]);
+  }, [location]);
 
 
   return (
