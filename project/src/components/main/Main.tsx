@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { changeOffers } from '../../store/action';
 import { CardPoints, ICardProps, PointType } from '../../types';
-import MainContainer from '../container/mainContainer';
+import MainContainer from '../mainContainer/mainContainer';
 import Loader from '../loader/Loader';
 import Tabs from '../tabs/tabs';
 
