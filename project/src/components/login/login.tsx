@@ -6,7 +6,7 @@ import { loginAction } from '../../store/apiActions';
 
 function Login() {
 
-  const [data, setData] = useState({login: 'Oliver.conner@gmail.com', password: '12345678'});
+  const [data, setData] = useState({email: '', password: ''});
 
   const isAuth = useAppSelector((state) => state.authorizationStatus);
   const dispatch = useAppDispatch();
@@ -16,18 +16,23 @@ function Login() {
   const submitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const newData = {
-      email: data.login,
-      password: data.password,
-    };
-
-    if(data.login !== null && data.password !== null) {
-      dispatch(loginAction(newData));
+    if(data.email !== null && data.password !== null) {
+      dispatch(loginAction({
+        email: data.email,
+        password: data.password,
+      }));
       setData({
-        login: '',
+        email: '',
         password: '',
       });
     }
+  };
+
+  const onHandleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setData({
+      ...data,
+      [e.target.name]: e.target.value,
+    });
   };
 
   useEffect(() => {
@@ -48,13 +53,10 @@ function Login() {
                 className="login__input form__input"
                 type="email"
                 name="email"
-                defaultValue={data.login}
+                defaultValue={data.email}
                 placeholder="Email"
                 required
-                onChange={(e) => setData({
-                  ...data,
-                  login: e.target.value,
-                })}
+                onChange={onHandleInput}
               />
             </div>
             <div className="login__input-wrapper form__input-wrapper">
@@ -66,10 +68,7 @@ function Login() {
                 defaultValue={data.password}
                 placeholder="Password"
                 required
-                onChange={(e) => setData({
-                  ...data,
-                  password: e.target.value,
-                })}
+                onChange={onHandleInput}
               />
             </div>
             <button className="login__submit form__submit button" type="submit">Sign in</button>
