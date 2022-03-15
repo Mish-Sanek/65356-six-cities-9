@@ -3,7 +3,7 @@ import { api, store } from '.';
 import { APIRoute } from '../consts/apiRoutes';
 import { AuthorizationStatus } from '../consts/auth';
 import { deleteToken, saveToken } from '../services/token';
-import { IAuth, ICardProps, iUser } from '../types';
+import { IAuth, ICardProps, IUser } from '../types';
 import { changeAuthStatus, changeIsLoading, loadCities } from './action';
 
 export const fetchHotelsData = createAsyncThunk(
@@ -41,9 +41,7 @@ export const loginAction = createAsyncThunk(
   'user/login',
   async ({email, password}: IAuth) => {
     try {
-      // eslint-disable-next-line no-console
-      console.log(JSON.stringify({email, password}));
-      const {data: {token}} = await api.post<iUser>(APIRoute.Login, JSON.stringify({email, password}));
+      const {data: {token}} = await api.post<IUser>(APIRoute.Login, JSON.stringify({email, password}));
       saveToken(token);
       store.dispatch(changeAuthStatus(AuthorizationStatus.Auth));
     } catch (error) {

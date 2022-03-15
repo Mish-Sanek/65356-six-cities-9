@@ -49,7 +49,7 @@ export interface IAuth {
   password: string,
 }
 
-export interface iUser {
+export interface IUser {
   id: number,
   email: string,
   token: string,
