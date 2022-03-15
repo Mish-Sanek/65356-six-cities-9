@@ -43,3 +43,14 @@ export interface CardPoints {
   lat: number,
   lng: number
 }
+
+export interface IAuth {
+  email: string,
+  password: string,
+}
+
+export interface IUser {
+  id: number,
+  email: string,
+  token: string,
+}

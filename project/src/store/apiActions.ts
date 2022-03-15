@@ -1,7 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { api, store } from '.';
-import { ICardProps } from '../types';
-import { changeIsLoading, loadCities } from './action';
+import { APIRoute } from '../consts/apiRoutes';
+import { AuthorizationStatus } from '../consts/auth';
+import { deleteToken, saveToken } from '../services/token';
+import { IAuth, ICardProps, IUser } from '../types';
+import { changeAuthStatus, changeIsLoading, loadCities } from './action';
 
 export const fetchHotelsData = createAsyncThunk(
   'data/loadCities',
@@ -13,6 +16,48 @@ export const fetchHotelsData = createAsyncThunk(
       if(request.readyState === 4) {
         store.dispatch(changeIsLoading(false));
       }
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log(error);
+    }
+  },
+);
+
+export const checkAuthStatus = createAsyncThunk(
+  'user/checkAuthStatus',
+  async () => {
+    try {
+      await api.get(APIRoute.Login);
+      store.dispatch(changeAuthStatus(AuthorizationStatus.Auth));
+
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log(error);
+    }
+  },
+);
+
+export const loginAction = createAsyncThunk(
+  'user/login',
+  async ({email, password}: IAuth) => {
+    try {
+      const {data: {token}} = await api.post<IUser>(APIRoute.Login, {email, password});
+      saveToken(token);
+      store.dispatch(changeAuthStatus(AuthorizationStatus.Auth));
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log(error);
+    }
+  },
+);
+
+export const logoutAction = createAsyncThunk(
+  'user/logout',
+  async () => {
+    try {
+      await api.delete(APIRoute.LogOut);
+      deleteToken();
+      store.dispatch(changeAuthStatus(AuthorizationStatus.NoAuth));
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);

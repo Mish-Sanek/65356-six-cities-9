@@ -53,6 +53,7 @@ function Map({points, hoveredCardPoints}: MapProps) {
       })
       .addTo(map),
     );
+
   }, [map, points, city, hoveredCardPoints]);
 
   return (

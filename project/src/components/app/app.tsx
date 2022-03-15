@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import {Route, Routes, useLocation} from 'react-router-dom';
 import Favorites from '../favorites/favorites';
 import Header from '../header/header';
@@ -11,16 +10,10 @@ import Room from '../room/room';
 function App(): JSX.Element {
   const location = useLocation();
 
-  const [locationState, setLocationState] = useState('/');
-
-  useEffect(() => {
-    setLocationState(location.pathname);
-  }, [location]);
-
 
   return (
-    <div className={`page ${locationState === '/' ? 'page--gray page--main' : ''} ${locationState === '/login' ? 'page--gray page--login' : ''}`}>
-      <Header locationState={locationState} />
+    <div className={`page ${location.pathname === '/' ? 'page--gray page--main' : ''} ${location.pathname === '/login' ? 'page--gray page--login' : ''}`}>
+      <Header locationState={location.pathname} />
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/login" element={<Login />} />

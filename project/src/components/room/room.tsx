@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { useState } from 'react';
+/* eslint-disable jsx-a11y/img-redundant-alt */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import { useParams } from 'react-router-dom';
 import { useAppSelector } from '../../hooks';
 import RoomGalery from '../roomGalery/roomGalery';
@@ -9,9 +9,9 @@ import RoomReviews from '../roomReviews/roomReviews';
 function Room() {
   const params = useParams();
 
-  const {placeCardsData} = useAppSelector((state) => state);
+  const placeCardsData = useAppSelector((state) => state.placeCardsData);
 
-  const [offer] = useState(placeCardsData[Number(params.id)]);
+  const offer = placeCardsData[Number(params.id)];
 
 
   return (

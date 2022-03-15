@@ -1,11 +1,16 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import { Link } from 'react-router-dom';
+import { AuthorizationStatus } from '../../consts/auth';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { logoutAction } from '../../store/apiActions';
 
 interface HeaderProps {
   locationState: string
 }
 
 function Header({locationState}: HeaderProps) {
-  const isAuth = true;
+  const isAuth = useAppSelector((state) => state.authorizationStatus);
+  const dispatch = useAppDispatch();
 
   return (
     <header className="header">
@@ -23,7 +28,7 @@ function Header({locationState}: HeaderProps) {
               <nav className="header__nav">
                 <ul className="header__nav-list">
                   {
-                    isAuth
+                    isAuth === AuthorizationStatus.Auth
                       ?
                       <>
                         <li className="header__nav-item user">
@@ -34,18 +39,18 @@ function Header({locationState}: HeaderProps) {
                           </Link>
                         </li>
                         <li className="header__nav-item">
-                          <a className="header__nav-link" href="#">
+                          <a className="header__nav-link" onClick={() => dispatch(logoutAction())}>
                             <span className="header__signout">Sign out</span>
                           </a>
                         </li>
                       </>
                       :
                       <li className="header__nav-item user">
-                        <a className="header__nav-link header__nav-link--profile" href="#">
+                        <Link className="header__nav-link header__nav-link--profile" to="/login">
                           <div className="header__avatar-wrapper user__avatar-wrapper">
                           </div>
                           <span className="header__login">Sign in</span>
-                        </a>
+                        </Link>
                       </li>
                   }
                 </ul>

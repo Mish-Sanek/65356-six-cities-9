@@ -1,6 +1,8 @@
 import { createReducer } from '@reduxjs/toolkit';
+import { AuthorizationStatus } from '../consts/auth';
+import { Filter } from '../consts/filters';
 import { ICardProps, PointType } from '../types';
-import { changeCity, changeFilter, changeIsLoading, changeOffers, loadCities } from './action';
+import { changeAuthStatus, changeCity, changeFilter, changeIsLoading, changeOffers, loadCities } from './action';
 
 interface CityState {
   city: PointType,
@@ -8,6 +10,7 @@ interface CityState {
   activeFilter: string,
   sortedOffers: ICardProps[],
   isOffersLoading: boolean,
+  authorizationStatus: AuthorizationStatus
 }
 
 const initialState = {
@@ -20,6 +23,7 @@ const initialState = {
   activeFilter: 'Popular',
   sortedOffers: [],
   isOffersLoading: true,
+  authorizationStatus: AuthorizationStatus.Unknown,
 } as CityState;
 
 const reducer = createReducer(initialState, (builder) => {
@@ -36,18 +40,21 @@ const reducer = createReducer(initialState, (builder) => {
     state.activeFilter = action.payload;
   });
   builder.addCase(changeOffers, (state, action) => {
-    if(state.activeFilter === 'Popular' && action.payload !== undefined) {
+    if(state.activeFilter === Filter.Popular && action.payload !== undefined) {
       state.sortedOffers = action.payload;
     }
-    if(state.activeFilter === 'Price: low to high' && action.payload !== undefined) {
+    if(state.activeFilter === Filter.ToHigh && action.payload !== undefined) {
       state.sortedOffers = action.payload.sort((a: ICardProps, b: ICardProps) => a.price - b.price);
     }
-    if(state.activeFilter === 'Price: high to low' && action.payload !== undefined) {
+    if(state.activeFilter === Filter.ToLow && action.payload !== undefined) {
       state.sortedOffers = action.payload.sort((a: ICardProps, b: ICardProps) => b.price - a.price);
     }
-    if(state.activeFilter === 'Top rated first' && action.payload !== undefined) {
+    if(state.activeFilter === Filter.TopRated && action.payload !== undefined) {
       state.sortedOffers = action.payload.sort((a: ICardProps, b: ICardProps) => b.rating - a.rating);
     }
+  });
+  builder.addCase(changeAuthStatus, (state, action) => {
+    state.authorizationStatus = action.payload;
   });
 });
 
