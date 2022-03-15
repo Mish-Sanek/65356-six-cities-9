@@ -10,18 +10,15 @@ function Login() {
 
   const submitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if(data.login !== null && data.password !== null) {
-      dispatch(loginAction({
-        email: data.login,
-        password: data.password,
-      }));
-    }
 
-    // eslint-disable-next-line no-console
-    console.log({
+    const newData = {
       email: data.login,
       password: data.password,
-    });
+    };
+
+    if(data.login !== null && data.password !== null) {
+      dispatch(loginAction(newData));
+    }
   };
 
   return (
