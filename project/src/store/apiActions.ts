@@ -40,8 +40,10 @@ export const checkAuthStatus = createAsyncThunk(
 export const loginAction = createAsyncThunk(
   'user/login',
   async ({email, password}: IAuth) => {
+    // eslint-disable-next-line no-console
+    console.log(JSON.stringify({email, password}));
     try {
-      const {data: {token}} = await api.post<IUser>(APIRoute.Login, JSON.stringify({email, password}));
+      const {data: {token}} = await api.post<IUser>(APIRoute.Login, {email, password});
       saveToken(token);
       store.dispatch(changeAuthStatus(AuthorizationStatus.Auth));
     } catch (error) {

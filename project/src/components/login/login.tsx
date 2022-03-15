@@ -1,12 +1,17 @@
-import React, { FormEvent, useState } from 'react';
-import { useAppDispatch } from '../../hooks';
+import { FormEvent, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AuthorizationStatus } from '../../consts/auth';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { loginAction } from '../../store/apiActions';
 
 function Login() {
 
   const [data, setData] = useState({login: 'Oliver.conner@gmail.com', password: '12345678'});
 
+  const isAuth = useAppSelector((state) => state.authorizationStatus);
   const dispatch = useAppDispatch();
+
+  const navigate = useNavigate();
 
   const submitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -18,8 +23,18 @@ function Login() {
 
     if(data.login !== null && data.password !== null) {
       dispatch(loginAction(newData));
+      setData({
+        login: '',
+        password: '',
+      });
     }
   };
+
+  useEffect(() => {
+    if(isAuth === AuthorizationStatus.Auth) {
+      navigate('/');
+    }
+  }, [isAuth]);
 
   return (
     <main className='page__main page__main--login'>
