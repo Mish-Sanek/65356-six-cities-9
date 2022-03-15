@@ -39,7 +39,7 @@ function Login() {
     if(isAuth === AuthorizationStatus.Auth) {
       navigate('/');
     }
-  }, [isAuth]);
+  }, [isAuth, navigate]);
 
   return (
     <main className='page__main page__main--login'>
