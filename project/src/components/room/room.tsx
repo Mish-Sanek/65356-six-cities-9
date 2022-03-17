@@ -1,17 +1,21 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useParams } from 'react-router-dom';
+import { AuthorizationStatus } from '../../consts/auth';
 import { useAppSelector } from '../../hooks';
 import RoomGalery from '../roomGalery/roomGalery';
 import RoomGoods from '../roomGoods/roomGoods';
+import RoomHost from '../roomHost/roomHost';
+import RoomRating from '../roomRating/roomRating';
 import RoomReviews from '../roomReviews/roomReviews';
 
 function Room() {
   const params = useParams();
 
-  const placeCardsData = useAppSelector((state) => state.placeCardsData);
+  const {placeCardsData} = useAppSelector((state) => state.data);
+  const {authorizationStatus} = useAppSelector((state) => state.user);
 
-  const offer = placeCardsData[Number(params.id)];
+  const offer = placeCardsData[Number(params.id) - 1];
 
 
   return (
@@ -21,12 +25,10 @@ function Room() {
         <div className="property__container container">
           <div className="property__wrapper">
             {
-              offer.isPremium ?
+              offer.isPremium === true &&
                 <div className="property__mark">
                   <span>Premium</span>
                 </div>
-                :
-                ''
             }
             <div className="property__name-wrapper">
               <h1 className="property__name">
@@ -39,13 +41,7 @@ function Room() {
                 <span className="visually-hidden">To bookmarks</span>
               </button>
             </div>
-            <div className="property__rating rating">
-              <div className="property__stars rating__stars">
-                <span style={{width: '80%'}} />
-                <span className="visually-hidden">Rating</span>
-              </div>
-              <span className="property__rating-value rating__value">{offer.rating}</span>
-            </div>
+            <RoomRating rating={offer.rating} />
             <ul className="property__features">
               <li className="property__feature property__feature--entire">
                 {offer.type}
@@ -62,26 +58,10 @@ function Room() {
               <span className="property__price-text">&nbsp;night</span>
             </div>
             <RoomGoods goods={offer.goods} />
-            <div className="property__host">
-              <h2 className="property__host-title">Meet the host</h2>
-              <div className="property__host-user user">
-                <div className={`property__avatar-wrapper ${offer.host.isPro ? 'property__avatar-wrapper--pro' : ''} user__avatar-wrapper`}>
-                  <img className="property__avatar user__avatar" src={offer.host.avatarUrl} width={74} height={74} alt="Host avatar" />
-                </div>
-                <span className="property__user-name">
-                  {offer.host.name}
-                </span>
-                <span className="property__user-status">
-                  Pro
-                </span>
-              </div>
-              <div className="property__description">
-                <p className="property__text">
-                  {offer.description}
-                </p>
-              </div>
-            </div>
-            <RoomReviews />
+            <RoomHost host={offer.host} description={offer.description} />
+            {
+              authorizationStatus === AuthorizationStatus.Auth && <RoomReviews />
+            }
           </div>
         </div>
         <section className="property__map map" />

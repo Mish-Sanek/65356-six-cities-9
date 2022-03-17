@@ -1,11 +1,10 @@
 import { useAppSelector } from '../../hooks';
-import { ICardProps } from '../../types';
-import FavoritesCard from '../favoritesCard/favoritesCard';
 import FavoritesEmpty from '../favoritesEmpty/favoritesEmpty';
+import FavoritesList from '../favoritesList/favoritesList';
 
 function Favorites() {
 
-  const {placeCardsData} = useAppSelector((state) => state);
+  const {placeCardsData} = useAppSelector((state) => state.data);
 
   const favoriteCards = placeCardsData.filter((item) => item.isFavorite);
 
@@ -16,14 +15,7 @@ function Favorites() {
           !favoriteCards.length?
             <FavoritesEmpty />
             :
-            <section className="favorites">
-              <h1 className="favorites__title">Saved listing</h1>
-              <ul className="favorites__list">
-                {
-                  favoriteCards.map((item: ICardProps) => <FavoritesCard key={item.id} offer={item} />)
-                }
-              </ul>
-            </section>
+            <FavoritesList favoriteCards={favoriteCards} />
         }
       </div>
     </main>

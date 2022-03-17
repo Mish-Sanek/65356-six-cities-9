@@ -8,7 +8,7 @@ function Login() {
 
   const [data, setData] = useState({email: '', password: ''});
 
-  const isAuth = useAppSelector((state) => state.authorizationStatus);
+  const isAuth = useAppSelector((state) => state.user.authorizationStatus);
   const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
