@@ -4,7 +4,9 @@ import { APIRoute } from '../consts/apiRoutes';
 import { AuthorizationStatus } from '../consts/auth';
 import { deleteToken, saveToken } from '../services/token';
 import { IAuth, ICardProps, IUser } from '../types';
-import { changeAuthStatus, changeIsLoading, loadCities } from './action';
+import { changeIsLoading, loadCities } from './dataProcess/dataProcess';
+import { changeAuthStatus } from './userProcess/userProcess';
+
 
 export const fetchHotelsData = createAsyncThunk(
   'data/loadCities',

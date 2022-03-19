@@ -1,14 +1,17 @@
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { changeOffers } from '../../store/action';
-import { CardPoints, ICardProps, PointType } from '../../types';
+import { CardPoints } from '../../types';
 import MainContainer from '../mainContainer/mainContainer';
 import Loader from '../loader/Loader';
 import Tabs from '../tabs/tabs';
+import { changeOffers } from '../../store/dataProcess/dataProcess';
+import usePoints from '../../hooks/usePoints';
+import useCheckedCity from '../../hooks/useCheckedCity';
 
 function Main(): JSX.Element {
 
-  const {placeCardsData, city, activeFilter, sortedOffers, isOffersLoading} = useAppSelector((state) => state);
+  const {placeCardsData, activeFilter, sortedOffers, isOffersLoading} = useAppSelector((state) => state.data);
+  const {city} = useAppSelector((state) => state.tabs);
   const dispatch = useAppDispatch();
   const [hoveredCardPoints, setHoveredCardPoints] = useState<CardPoints>({lat: 0, lng: 0});
 
@@ -20,36 +23,9 @@ function Main(): JSX.Element {
     setHoveredCardPoints(card);
   };
 
-  const getPoints = () => {
-    const arr: PointType[] = [];
+  const points = usePoints(placeCardsData, city);
+  const checkedCityOffers = useCheckedCity(placeCardsData, city);
 
-    placeCardsData.map((point) => {
-      if(point.city.name === city.title) {
-        arr.push({
-          title: point.city.name,
-          lat: point.location.latitude,
-          lng: point.location.longitude,
-        });
-      }
-    });
-
-    return arr;
-  };
-
-  const getCheckedCityOffers = () => {
-    const arr: ICardProps[] = [];
-
-    placeCardsData.map((item) => {
-      if(item.city.name === city.title) {
-        arr.push(item);
-      }
-    });
-
-    return arr;
-  };
-
-  const points = getPoints();
-  const checkedCityOffers = getCheckedCityOffers();
 
   useEffect(() => {
     dispatch(changeOffers(checkedCityOffers));

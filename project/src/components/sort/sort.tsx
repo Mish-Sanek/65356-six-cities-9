@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { changeFilter } from '../../store/action';
+import { changeFilter } from '../../store/dataProcess/dataProcess';
 
 function Sort() {
 
   const [isOpened, setIsOpened] = useState(false);
-  const { activeFilter } = useAppSelector((state) => state);
+  const { activeFilter } = useAppSelector((state) => state.data);
   const dispatch = useAppDispatch();
 
   const sortList: {

@@ -1,4 +1,4 @@
-export type ICardProps = {
+export interface ICardProps {
   city: {
     name: string,
     location: {
@@ -33,7 +33,7 @@ export type ICardProps = {
   id: number
 }
 
-export interface PointType {
+export type PointType = {
   title: string,
   lat: number,
   lng: number,
@@ -53,4 +53,11 @@ export interface IUser {
   id: number,
   email: string,
   token: string,
+}
+
+export interface IHost {
+  id: number,
+  name: string,
+  isPro: boolean,
+  avatarUrl: string,
 }

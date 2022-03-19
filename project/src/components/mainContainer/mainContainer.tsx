@@ -1,7 +1,7 @@
 import { CardPoints, ICardProps, PointType } from '../../types';
 import MainEmpty from '../mainEmpty/mainEmpty';
 import Map from '../map/map';
-import PlaceCard from '../placeCard/PlaceCard';
+import PlaceCardsList from '../placeCardsList/placeCardsList';
 import Sort from '../sort/sort';
 
 type ContainerTypes = {
@@ -24,11 +24,7 @@ function MainContainer({sortedOffers, checkedCityOffers, city, getCardPoints, po
             <h2 className="visually-hidden">Places</h2>
             <b className="places__found">{checkedCityOffers.length} places to stay in {city.title}</b>
             <Sort />
-            <div className="cities__places-list places__list tabs__content">
-              {
-                sortedOffers.map((card: ICardProps) => <PlaceCard key={card.id} card={card} getCardPoints={getCardPoints} />)
-              }
-            </div>
+            <PlaceCardsList sortedOffers={sortedOffers} getCardPoints={getCardPoints} />
           </section>
           <div className="cities__right-section">
             <Map points={points} hoveredCardPoints={hoveredCardPoints} />

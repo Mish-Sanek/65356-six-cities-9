@@ -9,7 +9,7 @@ interface HeaderProps {
 }
 
 function Header({locationState}: HeaderProps) {
-  const isAuth = useAppSelector((state) => state.authorizationStatus);
+  const isAuth = useAppSelector((state) => state.user.authorizationStatus);
   const dispatch = useAppDispatch();
 
   return (

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { CardPoints, ICardProps } from '../../types';
+import PlaceCardRating from '../placeCardRating/placeCardRating';
 
 type Item = {
   card: ICardProps
@@ -7,12 +8,6 @@ type Item = {
 }
 
 function PlaceCard({card, getCardPoints}: Item): JSX.Element {
-
-  const getRatingByPercent = (rating: number) => {
-    const percent = Math.floor((rating * 100) / 5);
-
-    return percent;
-  };
 
   const cardPoints = {
     lat: card.location.latitude,
@@ -48,12 +43,7 @@ function PlaceCard({card, getCardPoints}: Item): JSX.Element {
             <span className="visually-hidden">To bookmarks</span>
           </button>
         </div>
-        <div className="place-card__rating rating">
-          <div className="place-card__stars rating__stars">
-            <span style={{width: `${getRatingByPercent(card.rating)}%`}} />
-            <span className="visually-hidden">{card.rating}</span>
-          </div>
-        </div>
+        <PlaceCardRating rating={card.rating} />
         <h2 className="place-card__name">
           <Link to={`/offer/${card.id}`}>{card.title}</Link>
         </h2>

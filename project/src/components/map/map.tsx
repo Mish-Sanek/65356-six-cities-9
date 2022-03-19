@@ -12,7 +12,7 @@ interface MapProps {
 
 function Map({points, hoveredCardPoints}: MapProps) {
 
-  const {city} = useAppSelector((state) => state);
+  const {city} = useAppSelector((state) => state.tabs);
 
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);

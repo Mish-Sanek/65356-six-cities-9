@@ -1,12 +1,12 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { CITIES } from '../../consts/cities';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { changeCity } from '../../store/action';
+import { changeCity } from '../../store/tabsProcess/tabsProcess';
 import { PointType } from '../../types';
 
 function Tabs() {
 
-  const {city} = useAppSelector((state) => state);
+  const city = useAppSelector((state) => state.tabs.city);
   const dispatch = useAppDispatch();
 
   const onTabClick = (tab: PointType) => {
