@@ -27,7 +27,7 @@ function MainContainer({sortedOffers, checkedCityOffers, city, getCardPoints, po
             <PlaceCardsList sortedOffers={sortedOffers} getCardPoints={getCardPoints} />
           </section>
           <div className="cities__right-section">
-            <Map points={points} hoveredCardPoints={hoveredCardPoints} />
+            <Map points={points} hoveredCardPoints={hoveredCardPoints} className="cities__map map" />
           </div>
         </div>
       </div>

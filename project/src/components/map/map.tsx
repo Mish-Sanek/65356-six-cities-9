@@ -8,9 +8,10 @@ import { useAppSelector } from '../../hooks';
 interface MapProps {
   points: PointType[],
   hoveredCardPoints? : CardPoints
+  className: string,
 }
 
-function Map({points, hoveredCardPoints}: MapProps) {
+function Map({points, hoveredCardPoints, className}: MapProps) {
 
   const {city} = useAppSelector((state) => state.tabs);
 
@@ -59,7 +60,7 @@ function Map({points, hoveredCardPoints}: MapProps) {
   return (
     <section
       ref={mapRef}
-      className="cities__map map"
+      className={className}
     >
     </section>
   );
