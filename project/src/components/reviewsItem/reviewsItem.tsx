@@ -16,6 +16,8 @@ function ReviewsItem({comment}: IComment) {
     });
   };
 
+  const date = parseDate(comment.date);
+
   return (
     <li className="reviews__item">
       <div className="reviews__user user">
@@ -36,7 +38,7 @@ function ReviewsItem({comment}: IComment) {
         <p className="reviews__text">
           {comment.comment}
         </p>
-        <time className="reviews__time" dateTime="2019-04-24">{parseDate(comment.date)}</time>
+        <time className="reviews__time" dateTime={date}>{date}</time>
       </div>
     </li>
   );

@@ -190,19 +190,17 @@ function Room() {
   const offerId = Number(params.id);
   const offer = placeCardsData[offerId];
 
-  const fetchComments = async () => {
-    const {data} = await api.get(`${APIRoute.Comments}/${offerId}`);
-
-    setComments(data);
-  };
-
   useEffect(() => {
+    const fetchComments = async () => {
+      const {data} = await api.get(`${APIRoute.Comments}/${offerId}`);
+      setComments(data);
+    };
     fetchComments();
 
     return () => {
       setComments([]);
     };
-  }, [placeCardsData, params]);
+  }, [placeCardsData, params, offerId]);
 
   return (
     <main className='page__main page__main--property'>

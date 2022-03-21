@@ -7,6 +7,11 @@ interface INearby {
 }
 
 function RoomsNearbyItem({offer}: INearby) {
+
+  const handleScrollTop = () => {
+    window.scrollTo(0, 0);
+  };
+
   return (
     <article className="near-places__card place-card">
       <div className="near-places__image-wrapper place-card__image-wrapper">
@@ -34,7 +39,7 @@ function RoomsNearbyItem({offer}: INearby) {
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`/offer/${offer.id}`} onClick={() => window.scrollTo(0, 0)}>{offer.title}</Link>
+          <Link to={`/offer/${offer.id}`} onClick={handleScrollTop}>{offer.title}</Link>
         </h2>
         <p className="place-card__type">{offer.type}</p>
       </div>
