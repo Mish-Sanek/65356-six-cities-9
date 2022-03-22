@@ -1,9 +1,8 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { APIRoute } from '../../consts/apiRoutes';
-import { useAppSelector } from '../../hooks';
 import usePoints from '../../hooks/usePoints';
 import { api } from '../../store';
 import { ICardProps, IComments } from '../../types';
@@ -14,6 +13,7 @@ import RoomRating from '../roomRating/roomRating';
 import RoomReviews from '../roomReviews/roomReviews';
 import Map from '../map/map';
 import RoomsNearby from '../roomsNearby/roomsNearby';
+import Loader from '../loader/Loader';
 
 function Room() {
 
@@ -181,26 +181,44 @@ function Room() {
     },
   ];
 
+  const navigate = useNavigate();
+
   const params = useParams();
 
-  const {placeCardsData} = useAppSelector((state) => state.data);
+  const [offer, setOffer] = useState<ICardProps | null>(null);
   const [comments, setComments] = useState<IComments[]>([]);
   const points = usePoints(offersNearby, { title: 'Dusseldorf', lat: 51.225402, lng: 6.776314});
 
   const offerId = Number(params.id);
-  const offer = placeCardsData[offerId];
+
+  const fetchComments = async () => {
+    const {data} = await api.get(`${APIRoute.Comments}/${offerId}`);
+    setComments(data);
+  };
 
   useEffect(() => {
-    const fetchComments = async () => {
-      const {data} = await api.get(`${APIRoute.Comments}/${offerId}`);
-      setComments(data);
+    const fetchHotel =  async () => {
+      const response = await api.get(`${APIRoute.Hotels}/${offerId}`)
+        .then((res) => {
+          setOffer(res.data);
+        }).catch(() => {
+          navigate('../not-found');
+        });
+
+      return response;
     };
+    fetchHotel();
     fetchComments();
 
     return () => {
+      setOffer(null);
       setComments([]);
     };
-  }, [placeCardsData, params, offerId]);
+  }, [params, offerId]);
+
+  if(offer === null) {
+    return <Loader />;
+  }
 
   return (
     <main className='page__main page__main--property'>
@@ -243,7 +261,7 @@ function Room() {
             </div>
             <RoomGoods goods={offer.goods} />
             <RoomHost host={offer.host} description={offer.description} />
-            <RoomReviews comments={comments} />
+            <RoomReviews fetchComments={fetchComments} comments={comments} />
           </div>
         </div>
         <Map points={points} className="property__map map" />
