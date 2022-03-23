@@ -6,9 +6,10 @@ import ReviewsList from '../reviewsList/reviewsList';
 
 interface IReviews {
   comments: IComments[],
+  fetchComments: any,
 }
 
-function RoomReviews({comments}: IReviews) {
+function RoomReviews({comments, fetchComments}: IReviews) {
 
   const {authorizationStatus} = useAppSelector((state) => state.user);
 
@@ -16,7 +17,7 @@ function RoomReviews({comments}: IReviews) {
     <section className="property__reviews reviews">
       <ReviewsList comments={comments} />
       {
-        authorizationStatus === AuthorizationStatus.Auth && <ReviewForm />
+        authorizationStatus === AuthorizationStatus.Auth && <ReviewForm fetchComments={fetchComments} />
       }
     </section>
   );
