@@ -25,6 +25,38 @@ export const fetchHotelsData = createAsyncThunk(
   },
 );
 
+export const addToFavoritesAction = createAsyncThunk(
+  'data/addToFavorite',
+  async ({id, token}: any) => {
+    try {
+      await api.post(
+        `${APIRoute.Favorite}/${id}/1`, {
+          headers: {'X-Token': token},
+        });
+      store.dispatch(fetchHotelsData());
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log(error);
+    }
+  },
+);
+
+export const removeFromFavoritesAction = createAsyncThunk(
+  'data/removeFromFavorites',
+  async ({id, token}: any) => {
+    try {
+      await api.post(
+        `${APIRoute.Favorite}/${id}/0`, {
+          headers: {'X-Token': token},
+        });
+      store.dispatch(fetchHotelsData());
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log(error);
+    }
+  },
+);
+
 export const checkAuthStatus = createAsyncThunk(
   'user/checkAuthStatus',
   async () => {

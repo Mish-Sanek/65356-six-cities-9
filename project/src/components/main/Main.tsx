@@ -29,7 +29,7 @@ function Main(): JSX.Element {
 
   useEffect(() => {
     dispatch(changeOffers(checkedCityOffers));
-  }, [isOffersLoading, activeFilter, city]);
+  }, [placeCardsData, isOffersLoading, activeFilter, city]);
 
 
   return (

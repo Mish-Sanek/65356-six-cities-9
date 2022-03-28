@@ -74,3 +74,8 @@ export interface IComments {
     name: string,
   },
 }
+
+export interface IFav {
+  title: string,
+  offers: ICardProps[],
+}

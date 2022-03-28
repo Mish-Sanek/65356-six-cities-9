@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { CardPoints, ICardProps } from '../../types';
+import PlaceCardFavorite from '../placeCardFavorite/placeCardFavorite';
 import PlaceCardRating from '../placeCardRating/placeCardRating';
 
 type Item = {
@@ -26,9 +27,9 @@ function PlaceCard({card, getCardPoints}: Item): JSX.Element {
         </div>
       }
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <a href="#">
+        <Link to={`/offer/${card.id}`}>
           <img className="place-card__image" src={card.previewImage} width={260} height={200} alt="Place wallpapper" />
-        </a>
+        </Link>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
@@ -36,12 +37,7 @@ function PlaceCard({card, getCardPoints}: Item): JSX.Element {
             <b className="place-card__price-value">€{card.price}</b>
             <span className="place-card__price-text">/&nbsp;{card.description}</span>
           </div>
-          <button className={`place-card__bookmark-button ${card.isFavorite ? 'place-card__bookmark-button--active' : ''} button`} type="button">
-            <svg className="place-card__bookmark-icon" width={18} height={19}>
-              <use xlinkHref="#icon-bookmark" />
-            </svg>
-            <span className="visually-hidden">To bookmarks</span>
-          </button>
+          <PlaceCardFavorite favorite={card.isFavorite} id={card.id} />
         </div>
         <PlaceCardRating rating={card.rating} />
         <h2 className="place-card__name">

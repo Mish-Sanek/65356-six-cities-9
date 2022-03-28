@@ -1,5 +1,6 @@
 import {Route, Routes, useLocation} from 'react-router-dom';
 import Favorites from '../favorites/favorites';
+import Footer from '../footer/footer';
 import Header from '../header/header';
 import Login from '../login/login';
 import Main from '../main/Main';
@@ -26,6 +27,9 @@ function App(): JSX.Element {
         />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      {
+        location.pathname === '/favorites' && <Footer />
+      }
     </div>
   );
 }
