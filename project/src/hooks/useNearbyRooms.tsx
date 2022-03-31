@@ -12,7 +12,7 @@ const useNearbyRooms = (id: number) => {
     return () => {
       setOffers([]);
     };
-  },[]);
+  },[id]);
 
   return offers;
 };

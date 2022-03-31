@@ -28,7 +28,7 @@ function FavoritesCard({offer}: IOffer) {
             <b className="place-card__price-value">€{offer.price}</b>
             <span className="place-card__price-text">/&nbsp;night</span>
           </div>
-          <PlaceCardFavorite favorite={offer.isFavorite} id={offer.id} />
+          <PlaceCardFavorite buttonClass='place-card__bookmark' favorite={offer.isFavorite} id={offer.id} />
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">

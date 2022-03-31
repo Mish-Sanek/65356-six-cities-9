@@ -1,4 +1,9 @@
+import { useEffect } from 'react';
 import {Route, Routes, useLocation} from 'react-router-dom';
+import { AuthorizationStatus } from '../../consts/auth';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { fetchHotelsData } from '../../store/apiActions';
+import { changeAuthStatus } from '../../store/userProcess/userProcess';
 import Favorites from '../favorites/favorites';
 import Footer from '../footer/footer';
 import Header from '../header/header';
@@ -9,7 +14,16 @@ import PrivateRoute from '../privateRoute/PrivateRoute';
 import Room from '../room/room';
 
 function App(): JSX.Element {
+  const isAuth = useAppSelector((state) => state.user.authorizationStatus);
+  const dispatch = useAppDispatch();
   const location = useLocation();
+
+  useEffect(() => {
+    dispatch(fetchHotelsData());
+    if(isAuth !== AuthorizationStatus.Auth && !!localStorage.getItem(('x-token'))) {
+      dispatch(changeAuthStatus(AuthorizationStatus.Auth));
+    }
+  }, [isAuth, dispatch]);
 
 
   return (

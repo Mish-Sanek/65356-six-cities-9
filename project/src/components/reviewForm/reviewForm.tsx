@@ -10,18 +10,11 @@ function ReviewForm({fetchComments}: any) {
 
   const offerId = Number(params.id);
 
-  const postComment = async () => {
-    const response = await api.post(`${APIRoute.Comments}/${offerId}`, {comment: review.comment, rating: review.rating.value})
-      .then((res) => {
-        // eslint-disable-next-line no-console
-        console.log(res.data);
-      }).catch((error) => {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      });
-
-    return response;
-  };
+  const postComment = async () => await api.post(`${APIRoute.Comments}/${offerId}`, {comment: review.comment, rating: review.rating.value})
+    .catch((error) => {
+    // eslint-disable-next-line no-console
+      console.log(error);
+    });
 
   const textReviewHandler = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
     setReview({
@@ -43,18 +36,18 @@ function ReviewForm({fetchComments}: any) {
   const formSubmitHandler = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     postComment();
-    fetchComments();
     setReview({
       comment: '',
       rating: {value: 0, title: ''},
     });
+    fetchComments();
   };
 
 
   return (
     <form className="reviews__form form" action="#" method="post" onSubmit={formSubmitHandler}>
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
-      <ReviewFormRating ratingReviewHandler={ratingReviewHandler} />
+      <ReviewFormRating defValue={review.rating.value} ratingReviewHandler={ratingReviewHandler} />
       <textarea
         className="reviews__textarea form__textarea"
         id="review"
@@ -62,6 +55,7 @@ function ReviewForm({fetchComments}: any) {
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={review.comment}
         onChange={textReviewHandler}
+        maxLength={300}
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">

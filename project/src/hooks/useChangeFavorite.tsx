@@ -1,20 +1,20 @@
-import { store } from '../store';
 import { addToFavoritesAction, removeFromFavoritesAction } from '../store/apiActions';
+import { AppDispatch } from '../types/state';
 
-const useChangeFavorite = (id: number, favorite: boolean, token: string) => {
+const useChangeFavorite = (dispatch: AppDispatch,id: number, favorite: boolean, token: string) => {
 
   const addToFavorites = () => {
-    store.dispatch(addToFavoritesAction({id, token}));
+    dispatch(addToFavoritesAction({id, token}));
   };
 
   const removeFromFavorites = () => {
-    store.dispatch(removeFromFavoritesAction({id, token}));
+    dispatch(removeFromFavoritesAction({id, token}));
   };
 
   if(favorite === false) {
-    addToFavorites();
+    return addToFavorites();
   } else {
-    removeFromFavorites();
+    return removeFromFavorites();
   }
 };
 

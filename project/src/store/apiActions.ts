@@ -65,8 +65,7 @@ export const checkAuthStatus = createAsyncThunk(
       store.dispatch(changeAuthStatus(AuthorizationStatus.Auth));
 
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
+      store.dispatch(changeAuthStatus(AuthorizationStatus.NoAuth));
     }
   },
 );

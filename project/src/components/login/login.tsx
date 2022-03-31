@@ -10,7 +10,6 @@ function Login() {
 
   const isAuth = useAppSelector((state) => state.user.authorizationStatus);
   const dispatch = useAppDispatch();
-
   const navigate = useNavigate();
 
   const submitHandler = (e: FormEvent<HTMLFormElement>) => {
@@ -36,7 +35,7 @@ function Login() {
   };
 
   useEffect(() => {
-    if(isAuth === AuthorizationStatus.Auth) {
+    if(isAuth === AuthorizationStatus.Auth && !!localStorage.getItem('x-token')) {
       navigate('/');
     }
   }, [isAuth, navigate]);

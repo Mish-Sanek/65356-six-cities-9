@@ -7,11 +7,12 @@ import { useAppSelector } from '../../hooks';
 
 interface MapProps {
   points: PointType[],
-  hoveredCardPoints? : CardPoints
+  hoveredCardPoints? : CardPoints,
+  currentPoints?: CardPoints,
   className: string,
 }
 
-function Map({points, hoveredCardPoints, className}: MapProps) {
+function Map({points, hoveredCardPoints, className, currentPoints}: MapProps) {
 
   const {city} = useAppSelector((state) => state.tabs);
 
@@ -54,6 +55,16 @@ function Map({points, hoveredCardPoints, className}: MapProps) {
       })
       .addTo(map),
     );
+
+    if(currentPoints) {
+      leaflet.marker({
+        lat: currentPoints.lat,
+        lng: currentPoints.lng,
+      },
+      {
+        icon: currentCustomIcon,
+      }).addTo(map);
+    }
 
   }, [map, points, city, hoveredCardPoints]);
 

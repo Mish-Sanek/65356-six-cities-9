@@ -13,7 +13,7 @@ function Favorites() {
   const [cards, setCards] = useState(favoriteCards);
 
   useEffect(() => {
-    favorites.map((item) => {
+    favorites.forEach((item) => {
       const finderByName = favoriteCards.find((el: IFav) => el.title === item.city.name);
 
       if(!favoriteCards.length || !finderByName) {
@@ -22,7 +22,7 @@ function Favorites() {
           offers: [item],
         });
       } else {
-        favoriteCards.map((card) => {
+        favoriteCards.forEach((card) => {
           if(card.title === item.city.name) {
             card.offers.unshift(item);
           }
@@ -31,14 +31,14 @@ function Favorites() {
 
       setCards(favoriteCards);
     });
-  }, [favorites]);
+  }, [placeCardsData, favorites, setCards]);
 
 
   return (
     <main className='page__main page__main--favorites'>
       <div className="page__favorites-container container">
         {
-          favoriteCards.length ?
+          !cards.length ?
             <FavoritesEmpty />
             :
             <FavoritesList favoriteCards={cards} />

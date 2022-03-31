@@ -18,7 +18,7 @@ function FavoritesItem({offers, city}: IOffer) {
       </div>
       <div className="favorites__places">
         {
-          offers.map((offer) => <FavoritesCard offer={offer} key={offer.title} />)
+          offers.map((offer) => <FavoritesCard offer={offer} key={offer.id} />)
         }
       </div>
     </li>
