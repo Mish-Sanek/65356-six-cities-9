@@ -7,6 +7,7 @@ interface IData {
   activeFilter: string,
   sortedOffers: ICardProps[],
   isOffersLoading: boolean,
+  favorites: ICardProps[],
 }
 
 export const dataProcess = createSlice({
@@ -16,6 +17,7 @@ export const dataProcess = createSlice({
     activeFilter: 'Popular',
     sortedOffers: [],
     isOffersLoading: true,
+    favorites: [],
   } as IData,
   reducers: {
     loadCities: (state, action) => {
@@ -45,7 +47,10 @@ export const dataProcess = createSlice({
     changeFilter: (state, action) => {
       state.activeFilter = action.payload;
     },
+    changeFavorites: (state, action) => {
+      state.favorites = action.payload;
+    },
   },
 });
 
-export const {loadCities, changeIsLoading, changeOffers, changeFilter} = dataProcess.actions;
+export const {loadCities, changeIsLoading, changeOffers, changeFilter, changeFavorites} = dataProcess.actions;

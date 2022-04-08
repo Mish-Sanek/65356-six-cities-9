@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
-import { ICardProps, PointType } from '../types';
+import { ICardProps, CityPoint } from '../types';
 
-function useCheckedCity(placeCardsData: ICardProps[], city: PointType) {
+function useCheckedCity(placeCardsData: ICardProps[], city: CityPoint) {
 
   const checkedCity = useMemo(() => {
     const getCheckedCityOffers = () => {

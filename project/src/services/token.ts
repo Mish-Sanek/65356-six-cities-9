@@ -1,4 +1,4 @@
-const AUTH_TOKEN_NAME = 'guess-melody-token';
+const AUTH_TOKEN_NAME = 'x-token';
 
 type Token = string;
 

@@ -1,21 +1,41 @@
+/* eslint-disable no-debugger */
+import { useMemo } from 'react';
 import { useAppSelector } from '../../hooks';
+import { ICardProps, IFav } from '../../types';
 import FavoritesEmpty from '../favoritesEmpty/favoritesEmpty';
 import FavoritesList from '../favoritesList/favoritesList';
 
 function Favorites() {
+  const favorites = useAppSelector((state) => state.data.placeCardsData.filter((card) => card.isFavorite));
 
-  const {placeCardsData} = useAppSelector((state) => state.data);
+  const cards = useMemo((): IFav[] => {
+    const res: IFav[] = [];
+    const map: Record<string, ICardProps[]> = {};
+    favorites.forEach((item) => {
+      if (map[item.city.name] === undefined) {
+        map[item.city.name] = [];
+      }
+      map[item.city.name].push(item);
+    });
 
-  const favoriteCards = placeCardsData.filter((item) => item.isFavorite);
+    for (const [title, offers] of Object.entries(map)) {
+      res.push({
+        title,
+        offers,
+      });
+    }
+
+    return res;
+  }, [favorites]);
 
   return (
     <main className='page__main page__main--favorites'>
       <div className="page__favorites-container container">
         {
-          !favoriteCards.length?
+          !cards.length ?
             <FavoritesEmpty />
             :
-            <FavoritesList favoriteCards={favoriteCards} />
+            <FavoritesList favoriteCards={cards} />
         }
       </div>
     </main>

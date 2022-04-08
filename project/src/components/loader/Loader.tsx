@@ -6,7 +6,7 @@ function Loader(): JSX.Element {
     height: '150px',
     borderRadius: '50%',
     border: '15px solid white',
-    borderTop: '15px solid #1abc9c',
+    borderTop: '15px solid #4481c3',
     animation: 'spin 2s linear infinite',
   };
 

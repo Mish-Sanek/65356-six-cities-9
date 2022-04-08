@@ -1,4 +1,4 @@
-import { CardPoints, ICardProps, PointType } from '../../types';
+import { CityPoint, ICardProps, Point } from '../../types';
 import MainEmpty from '../mainEmpty/mainEmpty';
 import Map from '../map/map';
 import PlaceCardsList from '../placeCardsList/placeCardsList';
@@ -7,13 +7,13 @@ import Sort from '../sort/sort';
 type ContainerTypes = {
   sortedOffers: ICardProps[],
   checkedCityOffers: ICardProps[],
-  city: PointType,
-  getCardPoints: (card: CardPoints) => void,
-  points: PointType[],
-  hoveredCardPoints: CardPoints,
+  city: CityPoint,
+  getCardPoints: (card: Point) => void,
+  points: Point[],
+  hoveredMapPoint: Point,
 }
 
-function MainContainer({sortedOffers, checkedCityOffers, city, getCardPoints, points, hoveredCardPoints}: ContainerTypes): JSX.Element {
+function MainContainer({sortedOffers, checkedCityOffers, city, getCardPoints, points, hoveredMapPoint}: ContainerTypes): JSX.Element {
   return (
     !sortedOffers.length ?
       <MainEmpty />
@@ -27,7 +27,7 @@ function MainContainer({sortedOffers, checkedCityOffers, city, getCardPoints, po
             <PlaceCardsList sortedOffers={sortedOffers} getCardPoints={getCardPoints} />
           </section>
           <div className="cities__right-section">
-            <Map points={points} hoveredCardPoints={hoveredCardPoints} className="cities__map map" />
+            <Map points={points} activePoint={hoveredMapPoint} className="cities__map map" />
           </div>
         </div>
       </div>

@@ -1,35 +1,38 @@
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { CardPoints } from '../../types';
+import { Point } from '../../types';
 import MainContainer from '../mainContainer/mainContainer';
 import Loader from '../loader/Loader';
 import Tabs from '../tabs/tabs';
 import { changeOffers } from '../../store/dataProcess/dataProcess';
-import usePoints from '../../hooks/usePoints';
 import useCheckedCity from '../../hooks/useCheckedCity';
+import { State } from '../../types/state';
+import { getCityPoints } from '../../utils';
+
+const getPoints = (state: State) => getCityPoints(state.data.placeCardsData, state.tabs.city.title);
 
 function Main(): JSX.Element {
 
   const {placeCardsData, activeFilter, sortedOffers, isOffersLoading} = useAppSelector((state) => state.data);
   const {city} = useAppSelector((state) => state.tabs);
+  const points = useAppSelector(getPoints);
   const dispatch = useAppDispatch();
-  const [hoveredCardPoints, setHoveredCardPoints] = useState<CardPoints>({lat: 0, lng: 0});
+  const [hoveredPoint, setHoveredPoint] = useState<Point>({lat: 0, lng: 0});
 
-  const getCardPoints = (card: CardPoints) => {
+  const getPoint = (card: Point) => {
     if(!card) {
       return;
     }
 
-    setHoveredCardPoints(card);
+    setHoveredPoint(card);
   };
 
-  const points = usePoints(placeCardsData, city);
   const checkedCityOffers = useCheckedCity(placeCardsData, city);
 
 
   useEffect(() => {
     dispatch(changeOffers(checkedCityOffers));
-  }, [isOffersLoading, activeFilter, city]);
+  }, [placeCardsData, isOffersLoading, activeFilter, city, dispatch, checkedCityOffers]);
 
 
   return (
@@ -40,7 +43,13 @@ function Main(): JSX.Element {
         isOffersLoading === true ?
           <Loader />
           :
-          <MainContainer sortedOffers={sortedOffers} checkedCityOffers={checkedCityOffers} city={city} getCardPoints={getCardPoints} hoveredCardPoints={hoveredCardPoints} points={points}  />
+          <MainContainer
+            sortedOffers={sortedOffers}
+            checkedCityOffers={checkedCityOffers}
+            city={city}
+            getCardPoints={getPoint}
+            hoveredMapPoint={hoveredPoint} points={points}
+          />
       }
     </main>
   );

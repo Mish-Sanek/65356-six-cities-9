@@ -2,6 +2,7 @@
 import { Link } from 'react-router-dom';
 import { AuthorizationStatus } from '../../consts/auth';
 import { useAppDispatch, useAppSelector } from '../../hooks';
+import useAuth from '../../hooks/useAuth';
 import { logoutAction } from '../../store/apiActions';
 
 interface HeaderProps {
@@ -9,7 +10,8 @@ interface HeaderProps {
 }
 
 function Header({locationState}: HeaderProps) {
-  const isAuth = useAppSelector((state) => state.user.authorizationStatus);
+  const authStatus = useAuth();
+  const {email, avatarUrl} = useAppSelector((state) => state.user.data);
   const dispatch = useAppDispatch();
 
   return (
@@ -28,14 +30,20 @@ function Header({locationState}: HeaderProps) {
               <nav className="header__nav">
                 <ul className="header__nav-list">
                   {
-                    isAuth === AuthorizationStatus.Auth
+                    authStatus === AuthorizationStatus.Auth
                       ?
                       <>
                         <li className="header__nav-item user">
                           <Link className="header__nav-link header__nav-link--profile" to="/favorites">
-                            <div className="header__avatar-wrapper user__avatar-wrapper">
+                            <div
+                              className="header__avatar-wrapper user__avatar-wrapper"
+                              style={{
+                                backgroundImage: `url(${avatarUrl})`,
+                                borderRadius: '50%',
+                              }}
+                            >
                             </div>
-                            <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
+                            <span className="header__user-name user__name">{email}</span>
                           </Link>
                         </li>
                         <li className="header__nav-item">

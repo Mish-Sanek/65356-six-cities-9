@@ -2,10 +2,10 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { api, store } from '.';
 import { APIRoute } from '../consts/apiRoutes';
 import { AuthorizationStatus } from '../consts/auth';
-import { deleteToken, saveToken } from '../services/token';
-import { IAuth, ICardProps, IUser } from '../types';
+import { deleteData, getData, saveData } from '../services/userData';
+import { IAuth, ICardProps } from '../types';
 import { changeIsLoading, loadCities } from './dataProcess/dataProcess';
-import { changeAuthStatus } from './userProcess/userProcess';
+import { changeAuthStatus, changeData } from './userProcess/userProcess';
 
 
 export const fetchHotelsData = createAsyncThunk(
@@ -25,16 +25,56 @@ export const fetchHotelsData = createAsyncThunk(
   },
 );
 
-export const checkAuthStatus = createAsyncThunk(
-  'user/checkAuthStatus',
-  async () => {
+export const addToFavoritesAction = createAsyncThunk(
+  'data/addToFavorite',
+  async ({id, token}: any) => {
     try {
-      await api.get(APIRoute.Login);
-      store.dispatch(changeAuthStatus(AuthorizationStatus.Auth));
-
+      await api.post(
+        `${APIRoute.Favorite}/${id}/1`, {
+          headers: {'X-Token': token},
+        });
+      store.dispatch(fetchHotelsData());
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
+    }
+  },
+);
+
+export const removeFromFavoritesAction = createAsyncThunk(
+  'data/removeFromFavorites',
+  async ({id, token}: any) => {
+    try {
+      await api.post(
+        `${APIRoute.Favorite}/${id}/0`, {
+          headers: {'X-Token': token},
+        });
+      store.dispatch(fetchHotelsData());
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log(error);
+    }
+  },
+);
+
+export const checkAuthStatus = createAsyncThunk(
+  'user/checkAuthStatus',
+  async () => {
+    const data = getData();
+    try {
+      await api.get(
+        APIRoute.Login, {
+          headers: {'X-Token': data.token},
+        });
+      store.dispatch(changeData({
+        id: data.id,
+        email: data.email,
+        avatarUrl: data.avatarUrl,
+      }));
+      store.dispatch(changeAuthStatus(AuthorizationStatus.Auth));
+
+    } catch (error) {
+      store.dispatch(changeAuthStatus(AuthorizationStatus.NoAuth));
     }
   },
 );
@@ -43,8 +83,13 @@ export const loginAction = createAsyncThunk(
   'user/login',
   async ({email, password}: IAuth) => {
     try {
-      const {data: {token}} = await api.post<IUser>(APIRoute.Login, {email, password});
-      saveToken(token);
+      const {data} = await api.post(APIRoute.Login, {email, password});
+      saveData(data);
+      store.dispatch(changeData({
+        id: data.id,
+        email: data.email,
+        avatarUrl: data.avatarUrl,
+      }));
       store.dispatch(changeAuthStatus(AuthorizationStatus.Auth));
     } catch (error) {
       // eslint-disable-next-line no-console
@@ -58,7 +103,7 @@ export const logoutAction = createAsyncThunk(
   async () => {
     try {
       await api.delete(APIRoute.LogOut);
-      deleteToken();
+      deleteData();
       store.dispatch(changeAuthStatus(AuthorizationStatus.NoAuth));
     } catch (error) {
       // eslint-disable-next-line no-console
