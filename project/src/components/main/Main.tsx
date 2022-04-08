@@ -32,7 +32,7 @@ function Main(): JSX.Element {
 
   useEffect(() => {
     dispatch(changeOffers(checkedCityOffers));
-  }, [placeCardsData, isOffersLoading, activeFilter, city]);
+  }, [placeCardsData, isOffersLoading, activeFilter, city, dispatch, checkedCityOffers]);
 
 
   return (

@@ -8,7 +8,7 @@ import { loginAction } from '../../store/apiActions';
 function Login() {
 
   const [data, setData] = useState({email: '', password: ''});
-  const [isPswordWrong, setIsPswordWrong] = useState(false);
+  const [isPswordWrong, setIsPasswordWrong] = useState(false);
 
   const authStatus = useAuth();
   const isAuth = useIsAuth();
@@ -28,7 +28,7 @@ function Login() {
         password: '',
       });
     } else {
-      setIsPswordWrong(true);
+      setIsPasswordWrong(true);
     }
   };
 
@@ -43,7 +43,7 @@ function Login() {
     if(isAuth) {
       navigate('/');
     }
-  }, [authStatus, navigate]);
+  }, [authStatus, navigate, isAuth]);
 
   return (
     <main className='page__main page__main--login'>
