@@ -2,14 +2,14 @@
 import { CITIES } from '../../consts/cities';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { changeCity } from '../../store/tabsProcess/tabsProcess';
-import { PointType } from '../../types';
+import { Point } from '../../types';
 
 function Tabs() {
 
   const city = useAppSelector((state) => state.tabs.city);
   const dispatch = useAppDispatch();
 
-  const onTabClick = (tab: PointType) => {
+  const onTabClick = (tab: Point) => {
     dispatch(changeCity(tab));
   };
 

@@ -1,38 +1,32 @@
-import { useEffect, useState } from 'react';
+/* eslint-disable no-debugger */
+import { useMemo } from 'react';
 import { useAppSelector } from '../../hooks';
-import useFavoriteRooms from '../../hooks/useFavoriteRooms';
-import { IFav } from '../../types';
+import { ICardProps, IFav } from '../../types';
 import FavoritesEmpty from '../favoritesEmpty/favoritesEmpty';
 import FavoritesList from '../favoritesList/favoritesList';
 
 function Favorites() {
+  const favorites = useAppSelector((state) => state.data.placeCardsData.filter((card) => card.isFavorite));
 
-  const { placeCardsData } = useAppSelector((state) => state.data);
-  const favorites = useFavoriteRooms(placeCardsData);
-  const favoriteCards: IFav[] = [];
-  const [cards, setCards] = useState(favoriteCards);
-
-  useEffect(() => {
+  const cards = useMemo((): IFav[] => {
+    const res: IFav[] = [];
+    const map: Record<string, ICardProps[]> = {};
     favorites.forEach((item) => {
-      const finderByName = favoriteCards.find((el: IFav) => el.title === item.city.name);
-
-      if(!favoriteCards.length || !finderByName) {
-        favoriteCards.unshift({
-          title: item.city.name,
-          offers: [item],
-        });
-      } else {
-        favoriteCards.forEach((card) => {
-          if(card.title === item.city.name) {
-            card.offers.unshift(item);
-          }
-        });
+      if (map[item.city.name] === undefined) {
+        map[item.city.name] = [];
       }
-
-      setCards(favoriteCards);
+      map[item.city.name].push(item);
     });
-  }, [placeCardsData, favorites, setCards]);
 
+    for (const [title, offers] of Object.entries(map)) {
+      res.push({
+        title,
+        offers,
+      });
+    }
+
+    return res;
+  }, [favorites]);
 
   return (
     <main className='page__main page__main--favorites'>

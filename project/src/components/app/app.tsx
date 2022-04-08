@@ -1,8 +1,10 @@
 import { useEffect } from 'react';
 import {Route, Routes, useLocation} from 'react-router-dom';
 import { AuthorizationStatus } from '../../consts/auth';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { fetchHotelsData } from '../../store/apiActions';
+import { useAppDispatch } from '../../hooks';
+import useAuth from '../../hooks/useAuth';
+import useIsAuth from '../../hooks/useIsAuth';
+import { checkAuthStatus, fetchHotelsData } from '../../store/apiActions';
 import { changeAuthStatus } from '../../store/userProcess/userProcess';
 import Favorites from '../favorites/favorites';
 import Footer from '../footer/footer';
@@ -14,16 +16,18 @@ import PrivateRoute from '../privateRoute/PrivateRoute';
 import Room from '../room/room';
 
 function App(): JSX.Element {
-  const isAuth = useAppSelector((state) => state.user.authorizationStatus);
+  const authStatus = useAuth();
+  const isAuth = useIsAuth();
   const dispatch = useAppDispatch();
   const location = useLocation();
 
   useEffect(() => {
     dispatch(fetchHotelsData());
-    if(isAuth !== AuthorizationStatus.Auth && !!localStorage.getItem(('x-token'))) {
+    if(isAuth) {
+      dispatch(checkAuthStatus());
       dispatch(changeAuthStatus(AuthorizationStatus.Auth));
     }
-  }, [isAuth, dispatch]);
+  }, [authStatus, isAuth, dispatch]);
 
 
   return (

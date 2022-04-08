@@ -3,9 +3,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { APIRoute } from '../../consts/apiRoutes';
-import usePoints from '../../hooks/usePoints';
 import { api } from '../../store';
-import { CardPoints, ICardProps, IComments } from '../../types';
+import { ICardProps, Point } from '../../types';
 import RoomGalery from '../roomGalery/roomGalery';
 import RoomGoods from '../roomGoods/roomGoods';
 import RoomHost from '../roomHost/roomHost';
@@ -14,9 +13,9 @@ import RoomReviews from '../roomReviews/roomReviews';
 import Map from '../map/map';
 import RoomsNearby from '../roomsNearby/roomsNearby';
 import Loader from '../loader/Loader';
-import { useAppSelector } from '../../hooks';
 import useNearbyRooms from '../../hooks/useNearbyRooms';
 import PlaceCardFavorite from '../placeCardFavorite/placeCardFavorite';
+import { cardToPoint } from '../../utils';
 
 function Room() {
 
@@ -24,41 +23,30 @@ function Room() {
 
   const params = useParams();
   const offerId = Number(params.id);
-  const {city} = useAppSelector((state) => state.tabs);
   const [offer, setOffer] = useState<ICardProps | null>(null);
-  const [comments, setComments] = useState<IComments[]>([]);
   const offersNearby = useNearbyRooms(offerId);
-  const points = usePoints(offersNearby, city);
-  const [currentPoints, setCurrentPoints] = useState<CardPoints>({
+  const points = offersNearby.map(cardToPoint);
+  const [currentPoints, setCurrentPoints] = useState<Point>({
     lat: 0,
     lng: 0,
   });
 
-  const fetchComments = async () => {
-    const {data} = await api.get(`${APIRoute.Comments}/${offerId}`);
-    setComments(data);
-  };
-
   useEffect(() => {
     const fetchHotel =  async () => {
-      const response = await api.get(`${APIRoute.Hotels}/${offerId}`)
-        .then((res) => {
-          const data = res.data;
-          setOffer(data);
-          setCurrentPoints({
-            lat: data.city.location.latitude,
-            lng: data.city.location.longitude,
-          });
-        })
-        .catch(() => {
-          navigate('../not-found');
+      try {
+        const response = await api.get(`${APIRoute.Hotels}/${offerId}`);
+        const data = response.data;
+        setOffer(data);
+        setCurrentPoints({
+          lat: data.city.location.latitude,
+          lng: data.city.location.longitude,
         });
-
-      return response;
+      } catch {
+        navigate('../not-found');
+      }
     };
     fetchHotel();
-    fetchComments();
-  }, [params, offerId]);
+  }, [navigate, offerId]);
 
   if(offer === null) {
     return <Loader />;
@@ -100,10 +88,10 @@ function Room() {
             </div>
             <RoomGoods goods={offer.goods} />
             <RoomHost host={offer.host} description={offer.description} />
-            <RoomReviews fetchComments={fetchComments} comments={comments} />
+            <RoomReviews />
           </div>
         </div>
-        <Map points={points} currentPoints={currentPoints} className="property__map map" />
+        <Map points={points} activePoint={currentPoints} className="property__map map" />
       </section>
       <RoomsNearby offersNearby={offersNearby} />
     </main>

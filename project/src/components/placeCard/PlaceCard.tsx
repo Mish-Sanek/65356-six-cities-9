@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
-import { CardPoints, ICardProps } from '../../types';
+import { ICardProps, Point } from '../../types';
 import PlaceCardFavorite from '../placeCardFavorite/placeCardFavorite';
 import PlaceCardRating from '../placeCardRating/placeCardRating';
 
 type Item = {
   card: ICardProps
-  getCardPoints: (card: CardPoints) => void,
+  getCardPoints: (card: Point) => void,
 }
 
 function PlaceCard({card, getCardPoints}: Item): JSX.Element {

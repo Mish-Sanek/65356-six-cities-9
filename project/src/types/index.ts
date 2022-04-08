@@ -33,16 +33,15 @@ export interface ICardProps {
   id: number
 }
 
-export type PointType = {
-  title: string,
-  lat: number,
-  lng: number,
-}
-
-export interface CardPoints {
+export type Point = {
   lat: number,
   lng: number
 }
+
+export type CityPoint = Point & {
+  title: string,
+}
+
 
 export interface IAuth {
   email: string,
@@ -50,8 +49,9 @@ export interface IAuth {
 }
 
 export interface IUser {
-  id: number,
+  id?: number,
   email: string,
+  avatarUrl?: string,
   token: string,
 }
 

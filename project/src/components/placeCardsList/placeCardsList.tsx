@@ -1,9 +1,9 @@
-import { CardPoints, ICardProps } from '../../types';
+import { ICardProps, Point } from '../../types';
 import PlaceCard from '../placeCard/PlaceCard';
 
 type CardsType = {
   sortedOffers: ICardProps[];
-  getCardPoints: (card: CardPoints) => void,
+  getCardPoints: (card: Point) => void,
 }
 
 function PlaceCardsList({sortedOffers, getCardPoints}: CardsType) {

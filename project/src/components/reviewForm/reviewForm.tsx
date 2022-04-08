@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { APIRoute } from '../../consts/apiRoutes';
 import { api } from '../../store';
+import { fetchComments } from '../../utils';
 import ReviewFormRating from '../reviewFormRating/reviewFormRating';
 
-function ReviewForm({fetchComments}: any) {
+function ReviewForm() {
   const [review, setReview] = useState({comment: '', rating: {value: 0, title: ''}});
   const params = useParams();
 
@@ -36,18 +37,18 @@ function ReviewForm({fetchComments}: any) {
   const formSubmitHandler = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     postComment();
+    fetchComments(offerId);
     setReview({
       comment: '',
       rating: {value: 0, title: ''},
     });
-    fetchComments();
   };
 
 
   return (
     <form className="reviews__form form" action="#" method="post" onSubmit={formSubmitHandler}>
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
-      <ReviewFormRating defValue={review.rating.value} ratingReviewHandler={ratingReviewHandler} />
+      <ReviewFormRating value={review.rating.value} ratingReviewHandler={ratingReviewHandler} />
       <textarea
         className="reviews__textarea form__textarea"
         id="review"

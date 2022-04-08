@@ -1,14 +1,17 @@
 import { FormEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AuthorizationStatus } from '../../consts/auth';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useAppDispatch } from '../../hooks';
+import useAuth from '../../hooks/useAuth';
+import useIsAuth from '../../hooks/useIsAuth';
 import { loginAction } from '../../store/apiActions';
 
 function Login() {
 
   const [data, setData] = useState({email: '', password: ''});
+  const [isPswordWrong, setIsPswordWrong] = useState(false);
 
-  const isAuth = useAppSelector((state) => state.user.authorizationStatus);
+  const authStatus = useAuth();
+  const isAuth = useIsAuth();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -24,6 +27,8 @@ function Login() {
         email: '',
         password: '',
       });
+    } else {
+      setIsPswordWrong(true);
     }
   };
 
@@ -35,10 +40,10 @@ function Login() {
   };
 
   useEffect(() => {
-    if(isAuth === AuthorizationStatus.Auth && !!localStorage.getItem('x-token')) {
+    if(isAuth) {
       navigate('/');
     }
-  }, [isAuth, navigate]);
+  }, [authStatus, navigate]);
 
   return (
     <main className='page__main page__main--login'>
@@ -64,12 +69,16 @@ function Login() {
                 className="login__input form__input"
                 type="password"
                 name="password"
+                pattern='^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{2,}$'
                 defaultValue={data.password}
                 placeholder="Password"
                 required
-                onChange={onHandleInput}
+                onInput={onHandleInput}
               />
             </div>
+            {
+              isPswordWrong && <p>Пароль должен состоять из 1 буквы и 1 цифры</p>
+            }
             <button className="login__submit form__submit button" type="submit">Sign in</button>
           </form>
         </section>
