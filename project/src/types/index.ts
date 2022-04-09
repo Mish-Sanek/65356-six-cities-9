@@ -50,7 +50,7 @@ export interface IAuth {
 
 export interface IUser {
   id?: number,
-  email: string,
+  email?: string,
   avatarUrl?: string,
   token: string,
 }

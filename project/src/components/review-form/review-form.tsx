@@ -5,7 +5,11 @@ import { api } from '../../store';
 import { fetchComments } from '../../utils';
 import ReviewFormRating from '../review-form-rating/review-form-rating';
 
-function ReviewForm({setIsCommentsLoading}: any) {
+type ReviewFormType = {
+  setIsCommentsLoading: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+function ReviewForm({setIsCommentsLoading}: ReviewFormType) {
   const [review, setReview] = useState({comment: '', rating: {value: 0, title: ''}});
   const params = useParams();
 

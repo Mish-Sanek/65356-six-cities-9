@@ -4,7 +4,11 @@ import { IComments } from '../../types';
 import { fetchComments } from '../../utils';
 import ReviewsItem from '../reviews-item/reviews-item';
 
-function ReviewsList({isCommentsLoading}: any) {
+type ReviewsListType = {
+  isCommentsLoading: boolean
+}
+
+function ReviewsList({isCommentsLoading}: ReviewsListType) {
 
   const params = useParams();
   const offerId = Number(params.id);

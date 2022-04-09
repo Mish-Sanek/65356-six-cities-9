@@ -7,7 +7,7 @@ import ReviewsList from '../reviews-list/reviews-list';
 function RoomReviews() {
 
   const authStatus = useAuth();
-  const [isCommentsLoading, setIsCommentsLoading] = useState(true);
+  const [isCommentsLoading, setIsCommentsLoading] = useState<boolean>(true);
 
   return (
     <section className="property__reviews reviews">

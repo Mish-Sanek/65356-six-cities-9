@@ -3,7 +3,7 @@ import { api, store } from '.';
 import { APIRoute } from '../consts/apiRoutes';
 import { AuthorizationStatus } from '../consts/auth';
 import { deleteData, getData, saveData } from '../services/userData';
-import { IAuth, ICardProps } from '../types';
+import { IAuth, ICardProps, IUser } from '../types';
 import { changeIsLoading, loadCities } from './dataProcess/dataProcess';
 import { changeAuthStatus, changeData } from './userProcess/userProcess';
 
@@ -27,7 +27,7 @@ export const fetchHotelsData = createAsyncThunk(
 
 export const addToFavoritesAction = createAsyncThunk(
   'data/addToFavorite',
-  async ({id, token}: any) => {
+  async ({id, token}: IUser) => {
     try {
       await api.post(
         `${APIRoute.Favorite}/${id}/1`, {
@@ -43,7 +43,7 @@ export const addToFavoritesAction = createAsyncThunk(
 
 export const removeFromFavoritesAction = createAsyncThunk(
   'data/removeFromFavorites',
-  async ({id, token}: any) => {
+  async ({id, token}: IUser) => {
     try {
       await api.post(
         `${APIRoute.Favorite}/${id}/0`, {
