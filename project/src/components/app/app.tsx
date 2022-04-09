@@ -11,8 +11,8 @@ import Footer from '../footer/footer';
 import Header from '../header/header';
 import Login from '../login/login';
 import Main from '../main/Main';
-import NotFound from '../notFound/notFound';
-import PrivateRoute from '../privateRoute/PrivateRoute';
+import NotFound from '../not-found/not-found';
+import PrivateRoute from '../private-route/private-route';
 import Room from '../room/room';
 
 function App(): JSX.Element {

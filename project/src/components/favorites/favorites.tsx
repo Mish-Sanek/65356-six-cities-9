@@ -2,8 +2,8 @@
 import { useMemo } from 'react';
 import { useAppSelector } from '../../hooks';
 import { ICardProps, IFav } from '../../types';
-import FavoritesEmpty from '../favoritesEmpty/favoritesEmpty';
-import FavoritesList from '../favoritesList/favoritesList';
+import FavoritesEmpty from '../favorites-empty/favorites-empty';
+import FavoritesList from '../favorites-list/favorites-list';
 
 function Favorites() {
   const favorites = useAppSelector((state) => state.data.placeCardsData.filter((card) => card.isFavorite));

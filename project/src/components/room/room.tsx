@@ -5,17 +5,17 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { APIRoute } from '../../consts/apiRoutes';
 import { api } from '../../store';
 import { ICardProps, Point } from '../../types';
-import RoomGalery from '../roomGalery/roomGalery';
-import RoomGoods from '../roomGoods/roomGoods';
-import RoomHost from '../roomHost/roomHost';
-import RoomRating from '../roomRating/roomRating';
-import RoomReviews from '../roomReviews/roomReviews';
 import Map from '../map/map';
-import RoomsNearby from '../roomsNearby/roomsNearby';
 import Loader from '../loader/Loader';
 import useNearbyRooms from '../../hooks/useNearbyRooms';
-import PlaceCardFavorite from '../placeCardFavorite/placeCardFavorite';
 import { cardToPoint } from '../../utils';
+import RoomGalery from '../room-galery/room-galery';
+import PlaceCardFavorite from '../place-card-favorite/place-card-favorite';
+import RoomRating from '../room-rating/room-rating';
+import RoomGoods from '../room-goods/room-goods';
+import RoomHost from '../room-host/room-host';
+import RoomReviews from '../room-reviews/room-reviews';
+import RoomsNearby from '../rooms-nearby/rooms-nearby';
 
 function Room() {
 

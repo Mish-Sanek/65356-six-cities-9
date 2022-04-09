@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { Point } from '../../types';
-import MainContainer from '../mainContainer/mainContainer';
 import Loader from '../loader/Loader';
 import Tabs from '../tabs/tabs';
 import { changeOffers } from '../../store/dataProcess/dataProcess';
 import useCheckedCity from '../../hooks/useCheckedCity';
 import { State } from '../../types/state';
 import { getCityPoints } from '../../utils';
+import MainContainer from '../main-container/main-container';
 
 const getPoints = (state: State) => getCityPoints(state.data.placeCardsData, state.tabs.city.title);
 
